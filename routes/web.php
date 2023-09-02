@@ -39,7 +39,10 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'messages'], function (){
         Route::get('/',[MessageController::class,'index'])->name('message.index');
         Route::post('/',[MessageController::class,'store'])->name('message.store');
+
+        Route::get('/users',[]);
     });
+
 
 });
 
