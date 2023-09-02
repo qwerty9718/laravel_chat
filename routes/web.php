@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestMessenger\MessageController;
+use App\Http\Controllers\TestMessenger\PrototypeController;
 use App\Http\Controllers\TestMessenger\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -47,6 +48,12 @@ Route::middleware('auth')->group(function () {
         Route::get('/all',[UserController::class,'getAll'])->name('user.all');
         Route::post('/{id}',[UserController::class,'sendLike'])->name('user.sendLike');
         Route::post('/{id}/sendMessage',[UserController::class,'sendMessage'])->name('user.sendMessage');
+    });
+
+    Route::group(["prefix" => "chat-test"], function (){
+        Route::get('/{id}',[PrototypeController::class,'myPage'])->name('chat.myPage');
+        Route::get('/room/{id}',[PrototypeController::class,'myRoom'])->name('chat.myRoom');
+        Route::post('/sendMessage',[PrototypeController::class,'sendMessage'])->name('chat.sendMessage');
     });
 
 

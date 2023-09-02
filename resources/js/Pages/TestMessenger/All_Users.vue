@@ -3,6 +3,8 @@
 
         <div class="mb-5">
             <h1>Me {{this.$page.props.auth.user.email}}</h1>
+            <h1>id : {{this.$page.props.auth.user.id}}</h1>
+            <Link :href="route('chat.myPage',this.$page.props.auth.user.id)" style="color: red">Go to My Page</Link>
         </div>
 
         <div v-if="mess"> {{mess}} </div>
@@ -29,9 +31,10 @@
 </template>
 
 <script>
+import {Link} from '@inertiajs/vue3'
 export default {
     name: "All_Users",
-
+    components:{Link},
     props:['all_users'],
     data(){
         return{

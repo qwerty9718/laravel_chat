@@ -25,3 +25,8 @@ Broadcast::channel('send_like_{id}', function ($user, $id) {
 Broadcast::channel('send_message_{id}', function ($user, $id) {
     return (int) $user->id === (int) $id;
 });
+
+
+//Broadcast::channel('send_message_room_{id}', function ($user, $id) {
+//    return (int) $user->id === (int) $id;
+//});
