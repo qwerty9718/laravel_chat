@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestMessenger\MessageController;
+use App\Http\Controllers\TestMessenger\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -39,8 +40,13 @@ Route::middleware('auth')->group(function () {
     Route::group(['prefix' => 'messages'], function (){
         Route::get('/',[MessageController::class,'index'])->name('message.index');
         Route::post('/',[MessageController::class,'store'])->name('message.store');
+    });
 
-        Route::get('/users',[]);
+
+    Route::group(["prefix" => "users"], function (){
+        Route::get('/all',[UserController::class,'getAll'])->name('user.all');
+        Route::post('/{id}',[UserController::class,'sendLike'])->name('user.sendLike');
+        Route::post('/{id}/sendMessage',[UserController::class,'sendMessage'])->name('user.sendMessage');
     });
 
 
