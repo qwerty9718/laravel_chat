@@ -51,7 +51,7 @@ Route::middleware('auth')->group(function () {
     });
 
     Route::group(["prefix" => "chat-test"], function (){
-        Route::get('/{id}',[PrototypeController::class,'myPage'])->name('chat.myPage');
+        Route::get('/',[PrototypeController::class,'myPage'])->name('chat.myPage');
         Route::get('/room/{id}',[PrototypeController::class,'myRoom'])->name('chat.myRoom');
         Route::post('/sendMessage',[PrototypeController::class,'sendMessage'])->name('chat.sendMessage');
     });

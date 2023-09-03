@@ -15,8 +15,8 @@ class PrototypeController extends Controller
 {
 
     /// Получаем все чаты пользователя
-    public function myPage($id){
-        $me = User::find($id);
+    public function myPage(){
+        $me = auth()->user();
         $chat_room = $me->getMyChatRooms;
         return inertia('Prototype/MyPage', compact('me','chat_room'));
     }
@@ -37,7 +37,7 @@ class PrototypeController extends Controller
 
         $message = Message::create($data);
 
-        broadcast(new SendMessageToRoomEvent($message))->toOthers();
+        broadcast(new SendMessageToRoomEvent($message))->via();
         return $message;
     }
 }
