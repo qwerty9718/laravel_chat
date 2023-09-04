@@ -2,6 +2,7 @@
     <div class="container-fluid text-center">
         {{ getChat_id }}
         {{ getStatus_chat }}
+
         <div class="container"><h1>Messenger</h1> {{ me.email }} id: {{ me.id }}</div>
 
         <div class="row">

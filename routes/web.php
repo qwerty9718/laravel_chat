@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestMessenger\MessageController;
 use App\Http\Controllers\TestMessenger\PrototypeController;
 use App\Http\Controllers\TestMessenger\UserController;
+use App\Http\Controllers\Work\ChatController;
 use App\Http\Controllers\Work\MainController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -59,11 +60,18 @@ Route::middleware('auth')->group(function () {
     });
 
 
+    Route::group(['prefix' => 'chat-prototype'], function () {
+        Route::get('/', [MainController::class, 'index'])->name('chat-prototype.index');
+        Route::post('/getChat', [MainController::class, 'getChatRooms'])->name('chat-prototype.getChatRoom');
+        Route::post('/createChatRoom', [MainController::class, 'crateChatRoom'])->name('chat-prototype.createChat');
+        Route::post('/updateSecondUserChatStatus', [MainController::class, 'updateSecondUserChatStatus'])->name('chat-prototype.updateSecondUserChatStatus');
+    });
+
     Route::group(['prefix' => 'chat'], function () {
-        Route::get('/', [MainController::class, 'index'])->name('chat.index');
-        Route::post('/getChat', [MainController::class, 'getChatRooms'])->name('chat.getChatRoom');
-        Route::post('/createChatRoom', [MainController::class, 'crateChatRoom'])->name('chat.createChat');
-        Route::post('/updateSecondUserChatStatus', [MainController::class, 'updateSecondUserChatStatus'])->name('chat.updateSecondUserChatStatus');
+        Route::get('/', [ChatController::class, 'index'])->name('chat.index');
+        Route::post('/getChat', [ChatController::class, 'getChatRooms'])->name('chat.getChatRoom');
+        Route::post('/createChatRoom', [ChatController::class, 'crateChatRoom'])->name('chat.createChat');
+        Route::post('/updateSecondUserChatStatus', [ChatController::class, 'updateSecondUserChatStatus'])->name('chat.updateSecondUserChatStatus');
     });
 
 });

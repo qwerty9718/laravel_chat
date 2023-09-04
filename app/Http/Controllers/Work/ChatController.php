@@ -2,23 +2,20 @@
 
 namespace App\Http\Controllers\Work;
 
-use App\Events\Prototype\SendMessageToRoomEvent;
-use App\Events\Work\CreateNewChatRoomEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Work\CreateChatRequest;
 use App\Http\Requests\Work\GetChatRequest;
-use App\Http\Requests\Work\UpdateSecondUserChatRequest;
 use App\Models\ChatRoom;
 use App\Models\ChatUserTable;
 use App\Models\User;
 use Illuminate\Http\Request;
 
-class MainController extends Controller
+class ChatController extends Controller
 {
     public function index(){
         $users = User::all();
         $me = auth()->user();
-        return inertia('Work/Main', compact('users','me'));
+        return inertia('Work/Index', compact('users','me'));
     }
 
 
@@ -36,7 +33,7 @@ class MainController extends Controller
                         return  $data = ['messages' => [],'second_user' => $secondUser,'current_chat' => $fRoom, 'status_chat' => 'no messages'];
                     }
                     else{
-                       return $data = ['messages' => $messages,'second_user' => $secondUser,'current_chat' => $fRoom, 'status_chat' => 'ok'];
+                        return $data = ['messages' => $messages,'second_user' => $secondUser,'current_chat' => $fRoom, 'status_chat' => 'ok'];
                     }
                 }
             }
@@ -75,5 +72,4 @@ class MainController extends Controller
 
         return $data;
     }
-
 }

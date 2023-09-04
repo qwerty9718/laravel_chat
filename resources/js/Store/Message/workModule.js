@@ -25,8 +25,8 @@ export const workModule = {
         getChat_id(state){
             return state.chat_id
         },
-        getStatus_chat(status){
-            return status.status_chat
+        getStatus_chat(state){
+            return state.status_chat
         },
     },
     mutations: {
@@ -65,11 +65,11 @@ export const workModule = {
 
         // Все данные у чата
         async getChatRoom({state, commit, dispatch},{me,secondUser}){
-            const response = await axios.post(state.url+'chat/getChat',{me:me, secondUser:secondUser});
+            const response = await axios.post(state.url+'chat-prototype/getChat',{me:me, secondUser:secondUser});
             commit('setMessages', response.data.messages);
             commit('setSecondUser',response.data.second_user);
-            commit('setStatus_chat', response.data.status_chat)
-            commit('setChat_id',response.data.current_chat.id)
+            commit('setStatus_chat', response.data.status_chat);
+            commit('setChat_id',response.data.current_chat.id);
         },
 
 
@@ -77,7 +77,7 @@ export const workModule = {
         async createNewChat({state, commit, dispatch},{me,second_user}){
             const name = me.name + '_' + second_user.name;
             const data = {name: name, me:me.id, second_user: second_user.id};
-            const response = await axios.post(state.url+'chat/createChatRoom',data);
+            const response = await axios.post(state.url+'chat-prototype/createChatRoom',data);
             commit('setMessages', response.data.messages);
             commit('setChat_id', response.data.chat_room_id)
             commit('setStatus_chat',response.data.status_chat);
@@ -92,7 +92,9 @@ export const workModule = {
 
         // Добавляем сообщение (Для Pusher)
         addMessageToArrayList({state, commit}, message) {
-            commit('addMessages', message)
+            commit('addMessages', message);
+            window.scrollTo(0,document.body.scrollHeight);
+
         },
 
     },
