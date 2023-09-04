@@ -10,7 +10,7 @@
                     <div class="container mb-2 mt-2 user-chat" v-if="user.id !== me.id">
                         <h2>Id : {{ user.id }}</h2>
                         <h2>Email : {{ user.email }}</h2>
-                        <button class="btn btn-danger" @click="getChatRoom({me:me.id,secondUser:user.id})">get Chat-
+                        <button class="btn btn-danger" @click="getChatRoom({me:me.id,secondUser:user.id})">get Chat
                         </button>
                     </div>
                 </div>
