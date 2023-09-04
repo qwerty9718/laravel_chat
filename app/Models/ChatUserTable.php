@@ -8,4 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class ChatUserTable extends Model
 {
     use HasFactory;
+    protected $guarded = [];
+
+
 }

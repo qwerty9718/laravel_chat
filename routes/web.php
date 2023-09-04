@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TestMessenger\MessageController;
 use App\Http\Controllers\TestMessenger\PrototypeController;
 use App\Http\Controllers\TestMessenger\UserController;
+use App\Http\Controllers\Work\MainController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -38,25 +39,33 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::group(['prefix' => 'messages'], function (){
-        Route::get('/',[MessageController::class,'index'])->name('message.index');
-        Route::post('/',[MessageController::class,'store'])->name('message.store');
+    Route::group(['prefix' => 'messages'], function () {
+        Route::get('/', [MessageController::class, 'index'])->name('message.index');
+        Route::post('/', [MessageController::class, 'store'])->name('message.store');
     });
 
 
-    Route::group(["prefix" => "users"], function (){
-        Route::get('/all',[UserController::class,'getAll'])->name('user.all');
-        Route::post('/{id}',[UserController::class,'sendLike'])->name('user.sendLike');
-        Route::post('/{id}/sendMessage',[UserController::class,'sendMessage'])->name('user.sendMessage');
+    Route::group(["prefix" => "users"], function () {
+        Route::get('/all', [UserController::class, 'getAll'])->name('user.all');
+        Route::post('/{id}', [UserController::class, 'sendLike'])->name('user.sendLike');
+        Route::post('/{id}/sendMessage', [UserController::class, 'sendMessage'])->name('user.sendMessage');
     });
 
-    Route::group(["prefix" => "chat-test"], function (){
-        Route::get('/',[PrototypeController::class,'myPage'])->name('chat.myPage');
-        Route::get('/room/{id}',[PrototypeController::class,'myRoom'])->name('chat.myRoom');
-        Route::post('/sendMessage',[PrototypeController::class,'sendMessage'])->name('chat.sendMessage');
+    Route::group(["prefix" => "chat-test"], function () {
+        Route::get('/', [PrototypeController::class, 'myPage'])->name('chat-test.myPage');
+        Route::get('/room/{id}', [PrototypeController::class, 'myRoom'])->name('chat-test.myRoom');
+        Route::post('/sendMessage', [PrototypeController::class, 'sendMessage'])->name('chat-test.sendMessage');
+        Route::patch('/chat-room/{id}', [PrototypeController::class, 'setStatusToChatRoom'])->name('chat-test.up-chat-status');
     });
 
+
+    Route::group(['prefix' => 'chat'], function () {
+        Route::get('/', [MainController::class, 'index'])->name('chat.index');
+        Route::post('/getChat', [MainController::class, 'getChatRooms'])->name('chat.getChatRoom');
+        Route::post('/createChatRoom', [MainController::class, 'crateChatRoom'])->name('chat.createChat');
+        Route::post('/updateSecondUserChatStatus', [MainController::class, 'updateSecondUserChatStatus'])->name('chat.updateSecondUserChatStatus');
+    });
 
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';

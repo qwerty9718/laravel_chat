@@ -1,13 +1,15 @@
 <template>
-    <div>
-        {{ currentChat }}
-        <div>
+
+
+    <div>{{ currentChat }}<div>
+
+
             <h2>{{ me.email }} {{ me.id }}</h2>
 
             <h2>Chats</h2>
             <div v-if="chat_room.length > 0">
                 <div v-for="chat in chat_room" :key="chat.id">
-                    <button style="color: red" @click="getChatRoom(chat.id)">{{ chat.name }}</button>
+                    <button class="chat" @click="getChatRoom(chat.id)">{{ chat.name }}</button><span v-if="chat.status == 0">*</span>
                 </div>
             </div>
         </div>
@@ -16,21 +18,18 @@
         <div style="margin-top: 30px; margin-bottom: 30px">
             <h1>Send Message</h1>
             <input type="text" v-model="body" @update:model-value="setBody">
-            <button @click="sendMessage({me_id:me.id,chat_room_id:currentChat})" style="color: red">send message
-            </button>
+            <button @click="sendMessage({me_id:me.id,chat_room_id:currentChat})" style="color: red">send message</button>
         </div>
 
 
         <h2>Messages</h2>
         <div v-if="messages.length > 0" style="margin-top: 150px">
-
             <div v-for="user in users" :key="user.id">
                 <div :class="me.id !== user.id ? 'message_left' : null">{{ user.email }}</div>
             </div>
             <div v-for="message in messages" :key="message.id">
                 <div :class="me.id !== message.user_id ? 'message_left' : null">{{ message.body }}</div>
             </div>
-
         </div>
     </div>
 </template>
@@ -81,7 +80,8 @@ export default {
         ...mapActions({
             getChatRoom: 'message/getChatRoom',
             sendMessage: 'message/sendMessage',
-            addMessageToArrayList: "message/addMessageToArrayList"
+            addMessageToArrayList: "message/addMessageToArrayList",
+            checkStatusChatRoom: 'message/checkStatusChatRoom'
         }),
 
         ...mapMutations({
@@ -98,5 +98,10 @@ export default {
 <style scoped>
 .message_left {
     margin-left: 600px;
+}
+
+.chat{
+    font-size: 20px;
+    color: red;
 }
 </style>

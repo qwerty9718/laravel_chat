@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers\TestMessenger;
 
-use App\Events\Prototype\SendMessageEvent;
+
 use App\Events\Prototype\SendMessageToRoomEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Prototype\SendMessageRequest;
+use App\Http\Requests\Prototype\SetStatusToChatRoomRequest;
 use App\Models\ChatRoom;
 use App\Models\Message;
 use App\Models\User;
@@ -39,5 +40,15 @@ class PrototypeController extends Controller
 
         broadcast(new SendMessageToRoomEvent($message))->via();
         return $message;
+    }
+
+
+    // Установить статус Chat Room
+    public function setStatusToChatRoom($id,SetStatusToChatRoomRequest $request){
+        $data = $request->validated();
+        $chatRoom = ChatRoom::find($id);
+        $chatRoom->update(['status' => $data['status']]);
+
+        return 'status updated';
     }
 }
