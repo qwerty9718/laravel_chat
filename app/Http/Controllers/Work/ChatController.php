@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers\Work;
 
+use App\Events\Prototype\SendMessageToRoomEvent;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Prototype\SendMessageRequest;
 use App\Http\Requests\Work\CreateChatRequest;
 use App\Http\Requests\Work\GetChatRequest;
 use App\Models\ChatRoom;
 use App\Models\ChatUserTable;
+use App\Models\Message;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -71,5 +74,16 @@ class ChatController extends Controller
 
 
         return $data;
+    }
+
+
+
+    public function sendMessage(SendMessageRequest $request){
+        $data = $request->validated();
+
+        $message = Message::create($data);
+
+        broadcast(new SendMessageToRoomEvent($message))->via();
+        return $message;
     }
 }

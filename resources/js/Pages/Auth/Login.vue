@@ -17,8 +17,8 @@ defineProps({
 });
 
 const form = useForm({
-    email: '',
-    password: '',
+    email: 'user@mail.ru',
+    password: '11111111',
     remember: false,
 });
 
@@ -37,6 +37,7 @@ const submit = () => {
             {{ status }}
         </div>
 
+        <h1>Default user</h1>
         <form @submit.prevent="submit">
             <div>
                 <InputLabel for="email" value="Email" />

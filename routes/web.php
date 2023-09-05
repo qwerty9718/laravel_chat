@@ -40,38 +40,12 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
 
-    Route::group(['prefix' => 'messages'], function () {
-        Route::get('/', [MessageController::class, 'index'])->name('message.index');
-        Route::post('/', [MessageController::class, 'store'])->name('message.store');
-    });
-
-
-    Route::group(["prefix" => "users"], function () {
-        Route::get('/all', [UserController::class, 'getAll'])->name('user.all');
-        Route::post('/{id}', [UserController::class, 'sendLike'])->name('user.sendLike');
-        Route::post('/{id}/sendMessage', [UserController::class, 'sendMessage'])->name('user.sendMessage');
-    });
-
-    Route::group(["prefix" => "chat-test"], function () {
-        Route::get('/', [PrototypeController::class, 'myPage'])->name('chat-test.myPage');
-        Route::get('/room/{id}', [PrototypeController::class, 'myRoom'])->name('chat-test.myRoom');
-        Route::post('/sendMessage', [PrototypeController::class, 'sendMessage'])->name('chat-test.sendMessage');
-        Route::patch('/chat-room/{id}', [PrototypeController::class, 'setStatusToChatRoom'])->name('chat-test.up-chat-status');
-    });
-
-
-    Route::group(['prefix' => 'chat-prototype'], function () {
-        Route::get('/', [MainController::class, 'index'])->name('chat-prototype.index');
-        Route::post('/getChat', [MainController::class, 'getChatRooms'])->name('chat-prototype.getChatRoom');
-        Route::post('/createChatRoom', [MainController::class, 'crateChatRoom'])->name('chat-prototype.createChat');
-        Route::post('/updateSecondUserChatStatus', [MainController::class, 'updateSecondUserChatStatus'])->name('chat-prototype.updateSecondUserChatStatus');
-    });
 
     Route::group(['prefix' => 'chat'], function () {
         Route::get('/', [ChatController::class, 'index'])->name('chat.index');
         Route::post('/getChat', [ChatController::class, 'getChatRooms'])->name('chat.getChatRoom');
         Route::post('/createChatRoom', [ChatController::class, 'crateChatRoom'])->name('chat.createChat');
-        Route::post('/updateSecondUserChatStatus', [ChatController::class, 'updateSecondUserChatStatus'])->name('chat.updateSecondUserChatStatus');
+        Route::post('/sendMessage', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
     });
 
 });

@@ -1,4 +1,5 @@
 <template>
+
     <div class="main-content" id="panel">
         <div class="container-fluid pt-3">
             <div class="row removable">
@@ -7,33 +8,23 @@
                         <div class="card-body px-0 pb-0">
                             <div class="px-0 pb-4">
                                 <div class="container-fluid">
+                                    <Link :href="route('dashboard')">dashboard</Link>
                                     <div class="row flex-row">
                                         <div class="col-lg-4 mb-4">
                                             <div class="card h-100 overflow-auto overflow-x-hidden mb-5 mb-lg-0 content-message">
-                                                <form class="card-header">
-                                                    <div class="input-group mb-0">
-                                                        <input type="text" placeholder="Search" class="form-control" aria-label="Amount (to the nearest dollar)">
-                                                        <div class="input-group-append">
-                                                        <span class="input-group-text">
-                                                            <i class="fa fa-search"></i>
-                                                        </span>
-                                                        </div>
-                                                    </div>
-                                                </form>
 
                                                 <!--  Контакты  -->
                                                 <div class="card-body p-2" v-if="users">
-                                                    <div v-for="user in users" :key="user.id" class="mb-2" >
-<!--                                                        bg-gradient-primary-->
+                                                    <div v-for="user in users" :key="user.id" class="mb-2">
                                                         <div v-if="user.id !== me.id">
-                                                            <a  href="#" class="d-block p-2 rounded-lg" @click.prevent="getChatRoom({me:me.id,secondUser:user.id})">
+                                                            <a  href="#" :class="user.id === getSecondUser.id ? 'd-block p-2 rounded-lg bg-gradient-primary' : 'd-block p-2 rounded-lg'" @click.prevent="getChatRoom({me:me.id,secondUser:user.id})">
                                                                 <div class="d-flex p-2">
                                                                     <img alt="Image" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzH6TfTtq91hzmeIvm_4JOdb5y1UWjTlYZdA&usqp=CAU" class="avatar shadow">
                                                                     <div class="ml-2">
                                                                         <div class="justify-content-between align-items-center">
-                                                                            <h4 class="mb-0 mt-1">{{user.name}}<span class="badge badge-success"></span>
+                                                                            <h4 :class="user.id === getSecondUser.id ?'mb-0 mt-1 text-white' : 'mb-0 mt-1'">{{user.name}}<span v-if="false" class="badge badge-danger ml-5">12313</span>
                                                                             </h4>
-                                                                            <p class="text-black-50 mb-0 text-xs font-weight-normal">{{user.email}}</p>
+                                                                            <p :class="user.id === getSecondUser.id ? 'text-white mb-0 text-xs font-weight-normal' : 'text-black-50 mb-0 text-xs font-weight-normal'">{{user.email}}</p>
                                                                         </div>
                                                                     </div>
                                                                 </div>
@@ -90,7 +81,7 @@
 
                                                 <div class="card-footer d-block">
                                                     <form class="align-items-center">
-                                                        <div class="input-group mb-3">
+                                                        <div class="input-group mb-3" v-show="getChat_id">
                                                             <input v-model="body" @update:model-value="setBody" type="text" placeholder="Send" class="form-control" aria-label="Amount (to the nearest dollar)">
                                                             <div class="input-group-append">
                                                                 <a href="#" class="input-group-text" @click.prevent="sendMessage({user_id:me.id,chat_room_id:getChat_id})">
@@ -119,8 +110,10 @@
 
 <script>
 import {mapMutations, mapState, mapActions, mapGetters} from 'vuex';
+import {Link} from '@inertiajs/vue3'
 export default {
     name: "Index",
+    components:{Link},
     props: {
         users: {type: Array},
         me: {type: Object}

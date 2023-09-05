@@ -3,7 +3,7 @@ import axios from "axios";
 export const workModule = {
     state: () => ({
         url: 'http://localhost:8000/',
-        secondUser: null,
+        secondUser: {id:0},
         messages: null,
         body: '',
         chat_id : null,
@@ -28,6 +28,7 @@ export const workModule = {
         getStatus_chat(state){
             return state.status_chat
         },
+
     },
     mutations: {
         setSecondUser(state, user){
@@ -65,11 +66,12 @@ export const workModule = {
 
         // Все данные у чата
         async getChatRoom({state, commit, dispatch},{me,secondUser}){
-            const response = await axios.post(state.url+'chat-prototype/getChat',{me:me, secondUser:secondUser});
+            const response = await axios.post(state.url+'chat/getChat',{me:me, secondUser:secondUser});
             commit('setMessages', response.data.messages);
             commit('setSecondUser',response.data.second_user);
             commit('setStatus_chat', response.data.status_chat);
             commit('setChat_id',response.data.current_chat.id);
+
         },
 
 
@@ -77,7 +79,7 @@ export const workModule = {
         async createNewChat({state, commit, dispatch},{me,second_user}){
             const name = me.name + '_' + second_user.name;
             const data = {name: name, me:me.id, second_user: second_user.id};
-            const response = await axios.post(state.url+'chat-prototype/createChatRoom',data);
+            const response = await axios.post(state.url+'chat/createChatRoom',data);
             commit('setMessages', response.data.messages);
             commit('setChat_id', response.data.chat_room_id)
             commit('setStatus_chat',response.data.status_chat);
@@ -87,7 +89,7 @@ export const workModule = {
         async sendMessage({state, commit, dispatch},{user_id,chat_room_id}){
             const data = {body: state.body, user_id: user_id, chat_room_id: chat_room_id};
             commit('setBody', '')
-            const response = await axios.post(state.url + 'chat-test/sendMessage', data);
+            const response = await axios.post(state.url + 'chat/sendMessage', data);
         },
 
         // Добавляем сообщение (Для Pusher)
