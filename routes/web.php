@@ -1,6 +1,11 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TestMessenger\MessageController;
+use App\Http\Controllers\TestMessenger\PrototypeController;
+use App\Http\Controllers\TestMessenger\UserController;
+use App\Http\Controllers\Work\ChatController;
+use App\Http\Controllers\Work\MainController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -33,6 +38,16 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+
+
+    Route::group(['prefix' => 'chat'], function () {
+        Route::get('/', [ChatController::class, 'index'])->name('chat.index');
+        Route::post('/getChat', [ChatController::class, 'getChatRooms'])->name('chat.getChatRoom');
+        Route::post('/createChatRoom', [ChatController::class, 'crateChatRoom'])->name('chat.createChat');
+        Route::post('/sendMessage', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
+    });
+
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
