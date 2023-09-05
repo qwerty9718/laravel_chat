@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const workModule = {
     state: () => ({
-        url: 'http://localhost:8000/',
+        url: 'http://95.130.227.47:82/',
         secondUser: {id:0},
         messages: null,
         body: '',
