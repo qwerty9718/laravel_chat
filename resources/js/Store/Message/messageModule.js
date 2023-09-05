@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const messageModule = {
     state: () => ({
-        url: 'http://localhost:8000/',
+        url: 'http://95.130.227.47:82/',
         messages: [],
         users: [],
         currentChat: null,
