@@ -25,6 +25,9 @@ class User extends Authenticatable
         return $this->belongsToMany(ChatRoom::class,'chat_user_tables','user_id','chat_room_id');
     }
 
+    public function getNotify(){
+        return $this->hasMany(Notification::class);
+    }
 
     /**
      * The attributes that are mass assignable.

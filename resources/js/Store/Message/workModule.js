@@ -30,6 +30,7 @@ export const workModule = {
             return state.status_chat
         },
 
+
     },
     mutations: {
         setSecondUser(state, user){
@@ -61,13 +62,13 @@ export const workModule = {
             }
 
         },
-
     },
     actions: {
 
         // Все данные у чата
         async getChatRoom({state, commit, dispatch},{me,secondUser}){
-            const response = await axios.post(state.url+'chat/getChat',{me:me, secondUser:secondUser});
+            const response = await axios.post(state.url+'chat/getChat',{me:me.id, secondUser:secondUser.id});
+            dispatch('notifyModule/changeNotifyStatus', {secondUser:secondUser}, {root:true})
             commit('setMessages', response.data.messages);
             commit('setSecondUser',response.data.second_user);
             commit('setStatus_chat', response.data.status_chat);
@@ -87,17 +88,16 @@ export const workModule = {
         },
 
         // Отправака Сообщений
-        async sendMessage({state, commit, dispatch},{user_id,chat_room_id}){
-            const data = {body: state.body, user_id: user_id, chat_room_id: chat_room_id};
+        async sendMessage({state, commit, dispatch},{me_id,chat_room_id,second_user_id}){
+            const data = {body: state.body, user_id: me_id, chat_room_id: chat_room_id,second_user_id:second_user_id};
             commit('setBody', '')
             const response = await axios.post(state.url + 'chat/sendMessage', data);
+            dispatch('addMessageToArrayList',response.data);
         },
 
         // Добавляем сообщение (Для Pusher)
         addMessageToArrayList({state, commit}, message) {
             commit('addMessages', message);
-            window.scrollTo(0,document.body.scrollHeight);
-
         },
 
     },

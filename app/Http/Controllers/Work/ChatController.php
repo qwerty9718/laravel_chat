@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Work;
 
-use App\Events\Prototype\SendMessageToRoomEvent;
+
+use App\Events\Work\NotificationEvent;
+use App\Events\Work\SendMessageToRoomEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Prototype\SendMessageRequest;
 use App\Http\Requests\Work\CreateChatRequest;
@@ -10,6 +12,7 @@ use App\Http\Requests\Work\GetChatRequest;
 use App\Models\ChatRoom;
 use App\Models\ChatUserTable;
 use App\Models\Message;
+use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -18,7 +21,8 @@ class ChatController extends Controller
     public function index(){
         $users = User::all();
         $me = auth()->user();
-        return inertia('Work/Index', compact('users','me'));
+        $notifications = $me->getNotify;
+        return inertia('Work/Index', compact('users','me', 'notifications'));
     }
 
 
@@ -76,14 +80,36 @@ class ChatController extends Controller
         return $data;
     }
 
+    public function setNotification(int $me, int $second_user){
 
+        $notifications = User::find($second_user)->getNotify;
+        $create = true;
+        foreach ($notifications as $item){
+            if ($item['user_id'] == $second_user && $item['from_id'] == $me){
+                $create = false;
+                break;
+            }
+        }
+        if ($create == true){
+            $notify = Notification::create(['user_id' => $second_user, 'from_id' => $me]);
+        }
+
+    }
 
     public function sendMessage(SendMessageRequest $request){
         $data = $request->validated();
 
+        $second_user_id = $data['second_user_id'];
+        unset($data['second_user_id']);
+
         $message = Message::create($data);
 
-        broadcast(new SendMessageToRoomEvent($message))->via();
+        $this->setNotification($data['user_id'],$second_user_id);
+
+        broadcast(new SendMessageToRoomEvent($message))->toOthers();
+        broadcast(new NotificationEvent($message['user_id'],$second_user_id))->toOthers();
+
         return $message;
     }
+
 }

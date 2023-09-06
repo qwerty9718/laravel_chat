@@ -1,7 +1,6 @@
 <?php
 
-namespace App\Events\Prototype;
-
+namespace App\Events\Work;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -11,20 +10,21 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class SendMessageToRoomEvent implements ShouldBroadcast
+class NotificationEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
-    private $message;
-
+    private int $from_id;
+    private int $to_id;
 
     /**
      * Create a new event instance.
      */
-    public function __construct($message)
+    public function __construct(int $from_id, int $to_id)
     {
-
-        $this->message = $message;
+        //
+        $this->from_id = $from_id;
+        $this->to_id = $to_id;
     }
 
     /**
@@ -35,9 +35,10 @@ class SendMessageToRoomEvent implements ShouldBroadcast
     public function broadcastOn(): array
     {
         return [
-            new Channel('rooms_message_'.$this->message['chat_room_id']),
+            new Channel('notify_'.$this->to_id),
         ];
     }
+
 
 
     /**
@@ -45,7 +46,7 @@ class SendMessageToRoomEvent implements ShouldBroadcast
      */
     public function broadcastAs(): string
     {
-        return 'rooms_message';
+        return 'notify';
     }
 
 
@@ -57,7 +58,8 @@ class SendMessageToRoomEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'message' => $this->message
+            'from_id' => $this->from_id,
+            'to_id' => $this->to_id
         ];
     }
 }

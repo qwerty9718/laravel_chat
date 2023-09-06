@@ -25,7 +25,8 @@ class SendMessageRequest extends FormRequest
 
             'body' => 'required|string',
             'user_id' => 'required|integer',
-            'chat_room_id' => 'required|integer'
+            'chat_room_id' => 'required|integer',
+            'second_user_id' => 'required|integer',
         ];
     }
 }
