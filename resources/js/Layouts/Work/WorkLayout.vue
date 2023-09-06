@@ -1,5 +1,4 @@
 <template>
-
     <div class="main-content" id="panel">
         <div class="container-fluid pt-3">
             <div class="row removable">
@@ -10,10 +9,10 @@
                                 <div class="container-fluid">
                                     <Link :href="route('dashboard')">dashboard</Link>
                                     <div class="row flex-row">
-
-                                        <!--  Контакты  -->
                                         <div class="col-lg-4 mb-4">
                                             <div class="card h-100 overflow-auto overflow-x-hidden mb-5 mb-lg-0 content-message">
+
+                                                <!--  Контакты  -->
                                                 <div class="card-body p-2" v-if="users">
                                                     <div v-for="user in users" :key="user.id" class="mb-2">
                                                         <div v-if="user.id !== me.id">
@@ -30,19 +29,20 @@
                                                                 </div>
                                                             </a>
                                                         </div>
+
+
                                                     </div>
                                                 </div>
+
                                             </div>
                                         </div>
-
-
                                         <div class="col-lg-8">
                                             <div class="card" style="height: 70vh;">
-                                                <!--  С кем переписка-->
                                                 <div class="card-header shadow-xl">
                                                     <div class="row">
                                                         <div class="col-md-10">
                                                             <div class="d-flex align-items-center">
+                                                                <!--  С кем переписка-->
                                                                 <div class="ms-3">
                                                                     <h3 class="mb-0 d-block" v-if="getSecondUser">{{getSecondUser.name}}</h3>
                                                                     <span class="text-sm text-muted" v-if="getSecondUser"><span class="font-weight-bold">{{getSecondUser.email}}</span></span>
@@ -104,65 +104,16 @@
         </div>
 
     </div>
-
 </template>
 
 <script>
-import {mapMutations, mapState, mapActions, mapGetters} from 'vuex';
-import {Link} from '@inertiajs/vue3'
+
+
 export default {
-    name: "Index",
-    components:{Link},
-    props: {
-        users: {type: Array},
-        me: {type: Object}
-    },
-
-    computed: {
-        ...mapGetters({
-            getSecondUser: 'work/getSecondUser',
-            getMessages: 'work/getMessages',
-            getChat_id: 'work/getChat_id',
-            getStatus_chat: 'work/getStatus_chat',
-        }),
-
-        ...mapState({
-            body: state => state.work.body
-        })
-    },
-
-    methods: {
-        ...mapActions({
-            getChatRoom: 'work/getChatRoom',
-            createNewChat: 'work/createNewChat',
-            sendMessage: 'work/sendMessage',
-            addMessageToArrayList: 'work/addMessageToArrayList'
-        }),
-        ...mapMutations({
-            setBody: 'work/setBody',
-            setChat_id: 'work/setChat_id'
-        }),
-
-    },
-
-
-    watch: {
-
-        getChat_id: {
-            handler(newVal) {
-                window.Echo.channel('rooms_message_' + newVal)
-                    .listen('.rooms_message', res => {
-                        this.addMessageToArrayList(res.message);
-                    });
-            },
-            deep: true,
-        },
-    },
+    name: "WorkLayout",
 }
 </script>
 
 <style scoped>
-.content-message{
-    height: 70vh;
-}
+
 </style>
