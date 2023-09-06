@@ -1,6 +1,5 @@
 <template>
     <ChatLayout>
-
         <!--  Контакты  -->
         <template v-slot:contacts>
             <Contacts :users="getUsers" :me="me" :getSecondUser="getSecondUser" />

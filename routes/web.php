@@ -46,6 +46,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/getChat', [ChatController::class, 'getChatRooms'])->name('chat.getChatRoom');
         Route::post('/createChatRoom', [ChatController::class, 'crateChatRoom'])->name('chat.createChat');
         Route::post('/sendMessage', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
+        Route::post('/delNotify', [ChatController::class, 'deleteNotification'])->name('chat.delNotify');
     });
 
 });

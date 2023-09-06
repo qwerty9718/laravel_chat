@@ -6,7 +6,6 @@ export const notifyModule = {
         url: 'http://localhost:8000/',
         users: null,
         notifications: null,
-        notificationPusher: {to_id:null, from_id:null}
     }),
 
     getters: {
@@ -17,10 +16,6 @@ export const notifyModule = {
         getNotifications(state){
             return state.notifications
         },
-
-        getNotificationPusher(state){
-            return state.notificationPusher
-        }
 
     },
     mutations: {
@@ -35,33 +30,29 @@ export const notifyModule = {
                     if (state.notifications[i].from_id == state.users[j].id){
                         state.users[j].notificate = true;
                     }
-                    else {state.users[j].notificate = false;}
                 }
             }
         },
-
-        setNotificationPusher(state, value){
-            state.notificationPusher = value;
-        }
-
     },
     actions: {
-        // async getChatRoom({state, commit, dispatch},{me,secondUser}){
-        //     const response = await axios.post(state.url+'chat/getChat',{me:me, secondUser:secondUser});
-        //     commit('setMessages', response.data.messages);
-        //     commit('setSecondUser',response.data.second_user);
-        //     commit('setStatus_chat', response.data.status_chat);
-        //     commit('setChat_id',response.data.current_chat.id);
-        //
-        //     // dispatch('postList/minusPage', {}, {root:true})
-        // },
 
         changeNotifyStatus({state, commit, dispatch},{secondUser}){
             secondUser.notificate = false;
         },
-        deleteNotifyStatus({state, commit, dispatch},{me,secondUser}){
 
+        setNotificationPusher({state, commit, dispatch},{res}){
+            for (let i = 0; i < state.users.length; i++) {
+                if (state.users[i].id == res.from_id){
+                    state.users[i].notificate = true
+                }
+            }
+        },
+
+        async deleteNotify({state, commit, dispatch},{me,second_user}){
+            const data = {me_id: me.id ,second_user_id: second_user.id};
+            const response = await axios.post(state.url+'chat/delNotify',data)
         }
+
     },
     namespaced: true
 }

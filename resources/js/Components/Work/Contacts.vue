@@ -1,8 +1,5 @@
 <template>
 
-    {{getNotificationPusher}} <br>
-    {{getSecondUser}}
-
     <div class="col-lg-4 mb-4">
         <div class="card h-100 overflow-auto overflow-x-hidden mb-5 mb-lg-0 content-message">
             <div class="card-body p-2" v-if="users">
@@ -20,12 +17,11 @@
                                     <div class="justify-content-between align-items-center">
                                         <h4 :class="user.id === getSecondUser.id ?'mb-0 mt-1 text-white' : 'mb-0 mt-1'">
                                             {{ user.name }}<span
-                                            v-if="getNotificationPusher.from_id === user.id || user.notificate"
+                                            v-if="user.notificate"
                                             class="badge badge-danger ml-5">new</span>
                                         </h4>
                                         <p :class="user.id === getSecondUser.id ? 'text-white mb-0 text-xs font-weight-normal' : 'text-black-50 mb-0 text-xs font-weight-normal'">
                                             {{ user.email }}</p>
-                                        <p>{{ user }}</p>
                                     </div>
                                 </div>
                             </div>
@@ -53,25 +49,18 @@ export default {
     methods: {
         ...mapActions({
             getChatRoom: 'work/getChatRoom',
+            setNotificationPusher: 'notifyModule/setNotificationPusher',
         }),
-
-        ...mapMutations({
-            setNotificationPusher: 'notifyModule/setNotificationPusher'
-        })
     },
 
-    computed: {
-        ...mapGetters({
-            getNotificationPusher: 'notifyModule/getNotificationPusher',
-        })
-    },
+    computed: {},
 
 
     mounted() {
         window.Echo.channel('notify_' + this.me.id)
             .listen('.notify', res => {
                 if (this.getSecondUser.id !== res.from_id){
-                    this.setNotificationPusher(res)
+                    this.setNotificationPusher({res:res})
                 }
             });
     }

@@ -8,6 +8,7 @@ use App\Events\Work\SendMessageToRoomEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Prototype\SendMessageRequest;
 use App\Http\Requests\Work\CreateChatRequest;
+use App\Http\Requests\Work\DeleteNotifyRequest;
 use App\Http\Requests\Work\GetChatRequest;
 use App\Models\ChatRoom;
 use App\Models\ChatUserTable;
@@ -15,6 +16,7 @@ use App\Models\Message;
 use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ChatController extends Controller
 {
@@ -95,6 +97,15 @@ class ChatController extends Controller
         }
 
     }
+
+
+    public function deleteNotification(DeleteNotifyRequest $request){
+        $data = $request->validated();
+        $notify = Notification::where('user_id',$data['me_id'])->where('from_id',$data['second_user_id'])->get();
+        $id = $notify[0]['id'];
+        DB::table('notifications')->where('id', $id)->delete();
+    }
+
 
     public function sendMessage(SendMessageRequest $request){
         $data = $request->validated();
