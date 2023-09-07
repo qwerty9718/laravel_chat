@@ -51,16 +51,21 @@ export default {
             getChatRoom: 'work/getChatRoom',
             setNotificationPusher: 'notifyModule/setNotificationPusher',
         }),
+
+        test(){
+
+        }
     },
 
     computed: {},
 
 
     mounted() {
+        this.test();
         window.Echo.channel('notify_' + this.me.id)
             .listen('.notify', res => {
                 if (this.getSecondUser.id !== res.from_id){
-                    this.setNotificationPusher({res:res})
+                    this.setNotificationPusher({res:res});
                 }
             });
     }

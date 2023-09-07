@@ -5,7 +5,8 @@ export const workModule = {
         // url: 'http://95.130.227.47:82/',
         url: 'http://localhost:8000/',
         secondUser: {id:0},
-        messages: null,
+        // messages: null,
+        messages: {array: [], chat_room: null},
         body: '',
         chat_id : null,
         status_chat: null,
@@ -37,8 +38,14 @@ export const workModule = {
             state.secondUser = user
         },
 
-        setMessages(state, messages) {
-            state.messages = messages;
+        // setMessages(state, messages) {
+        //     state.messages = messages;
+        // },
+        setMessages(state, array) {
+            state.messages.array = array;
+        },
+        setMessagesChatId(state, chat_id) {
+            state.messages.chat_room = chat_id;
         },
 
         setBody(state, body) {
@@ -53,12 +60,22 @@ export const workModule = {
           state.chat_id = id;
         },
 
-        addMessages(state, message) {
-            if (state.messages.length <= 0){
-                state.messages.push(message)
+        // addMessages(state, message) {
+        //     if (state.messages.length <= 0){
+        //         state.messages.push(message)
+        //     }
+        //     else {
+        //         state.messages = [...state.messages.push(message)]
+        //     }
+        //
+        // },
+
+        addMessages(state, array ) {
+            if (state.messages.array.length <= 0){
+                state.messages.array.push(array);
             }
             else {
-                state.messages = [...state.messages.push(message)]
+                state.messages.array = [...state.messages.array.push(array)]
             }
 
         },

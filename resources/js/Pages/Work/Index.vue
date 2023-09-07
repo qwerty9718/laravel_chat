@@ -46,7 +46,8 @@ export default {
             getSecondUser: 'work/getSecondUser',
             getChat_id: 'work/getChat_id',
             getUsers: 'notifyModule/getUsers',
-            getNotifications: 'notifyModule/getNotifications'
+            getNotifications: 'notifyModule/getNotifications',
+            getMessages: 'work/getMessages',
         }),
 
     },
@@ -58,16 +59,20 @@ export default {
 
         ...mapMutations({
             setUsers: 'notifyModule/setUsers',
-            setNotifications: 'notifyModule/setNotifications'
+            setNotifications: 'notifyModule/setNotifications',
+            setMessagesChatId: 'work/setMessagesChatId'
         })
     },
 
     watch: {
         getChat_id: {
             handler(newVal) {
+                this.setMessagesChatId(newVal);
                 window.Echo.channel('rooms_message_' + newVal)
                     .listen('.rooms_message', res => {
-                        this.addMessageToArrayList(res.message);
+                        if (this.getMessages.chat_room == newVal){
+                            this.addMessageToArrayList(res.message);
+                        }
                     });
             },
             deep: true,
@@ -78,7 +83,6 @@ export default {
     mounted() {
         this.setNotifications(this.notifications);
         this.setUsers(this.users);
-        // this.addNotifyFiled({users:this.getUsers,notifications:this.getNotifications})
     }
 
 }
