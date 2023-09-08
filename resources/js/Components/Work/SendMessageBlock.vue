@@ -1,24 +1,25 @@
 <template>
-    <div class="card-footer d-block" v-show="getChat_id">
-        <form class="align-items-center">
+    <div class="card-footer d-block" >
+        <form class="align-items-center" v-if="getChat_id">
             <div class="input-group mb-3">
-                <input v-model="body" @update:model-value="setBody" type="text" placeholder="Send" class="form-control" aria-label="Amount (to the nearest dollar)">
+                <textarea v-model="body" @update:model-value="setBody" type="text" placeholder="Send" class="form-control" aria-label="Amount (to the nearest dollar)" style="max-height: 130px"></textarea>
                 <div class="input-group-append">
-                    <a href="#" class="input-group-text" @click.prevent="sendMessage({me_id:me.id,chat_room_id:getChat_id,second_user_id:getSecondUser.id})">
-                        <i class="fa fa-paper-plane"></i>
+                    <a href="#" class="input-group-text" @click.prevent="sendMessage({me_id:me.id,chat_room_id:getChat_id,second_user_id:getSecondUser.id})" style="background: #7c61e4">
+                        <i class="fa fa-paper-plane text-white"></i>
                     </a>
                 </div>
             </div>
         </form>
     </div>
+
 </template>
 
 <script>
 import {mapActions, mapGetters, mapMutations, mapState} from "vuex";
 
+
 export default {
     name: "SendMessageBlock",
-
     props: {
         users: {type: Array},
         me: {type: Object}
@@ -48,5 +49,7 @@ export default {
 </script>
 
 <style scoped>
-
+.test{
+    width: 80%;
+}
 </style>

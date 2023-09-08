@@ -42,6 +42,7 @@ export const workModule = {
         //     state.messages = messages;
         // },
         setMessages(state, array) {
+            array.reverse();
             state.messages.array = array;
         },
         setMessagesChatId(state, chat_id) {
@@ -86,7 +87,7 @@ export const workModule = {
         async getChatRoom({state, commit, dispatch},{me,secondUser}){
             const response = await axios.post(state.url+'chat/getChat',{me:me.id, secondUser:secondUser.id});
             dispatch('notifyModule/changeNotifyStatus', {secondUser:secondUser}, {root:true});
-            commit('setMessages', response.data.messages);
+            commit('setMessages', response.data.messages.data);
             commit('setSecondUser',response.data.second_user);
             commit('setStatus_chat', response.data.status_chat);
             commit('setChat_id',response.data.current_chat.id);

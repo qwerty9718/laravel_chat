@@ -17,6 +17,7 @@ use App\Models\Notification;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function Ramsey\Collection\add;
 
 class ChatController extends Controller
 {
@@ -37,7 +38,10 @@ class ChatController extends Controller
         foreach ($firsUserRooms as $fRoom){
             foreach ($secondUserRoom as $sRoom){
                 if ($fRoom->id  == $sRoom->id){
-                    $messages = $fRoom->messages($fRoom->id)->get();
+//                    $messages = $fRoom->messages($fRoom->id)->orderBy('created_at', 'desc')->paginate(5);
+                    $messages = $fRoom->messages($fRoom->id)->orderBy('created_at', 'desc')->paginate(5);
+
+
                     if (count($messages) <= 0 ){
                         return  $data = ['messages' => [],'second_user' => $secondUser,'current_chat' => $fRoom, 'status_chat' => 'no messages'];
                     }

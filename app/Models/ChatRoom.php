@@ -16,6 +16,11 @@ class ChatRoom extends Model
         return $this->belongsToMany(User::class, 'chat_user_tables','chat_room_id','user_id');
     }
 
+//    public function messages($id){
+//        return Message::where('chat_room_id', $id);
+//    }
+
+
     public function messages($id){
         return Message::where('chat_room_id', $id);
     }
