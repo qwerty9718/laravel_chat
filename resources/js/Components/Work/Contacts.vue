@@ -1,5 +1,4 @@
 <template>
-
     <div class="col-lg-4 mb-4">
         <div class="card h-100 overflow-auto overflow-x-hidden mb-5 mb-lg-0 content-message">
             <div class="card-body p-2" v-if="users">
@@ -51,17 +50,12 @@ export default {
             getChatRoom: 'work/getChatRoom',
             setNotificationPusher: 'notifyModule/setNotificationPusher',
         }),
-
-        test(){
-
-        }
     },
 
     computed: {},
 
 
     mounted() {
-        this.test();
         window.Echo.channel('notify_' + this.me.id)
             .listen('.notify', res => {
                 if (this.getSecondUser.id !== res.from_id){

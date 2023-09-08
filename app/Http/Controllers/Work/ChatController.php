@@ -102,8 +102,10 @@ class ChatController extends Controller
     public function deleteNotification(DeleteNotifyRequest $request){
         $data = $request->validated();
         $notify = Notification::where('user_id',$data['me_id'])->where('from_id',$data['second_user_id'])->get();
-        $id = $notify[0]['id'];
-        DB::table('notifications')->where('id', $id)->delete();
+        if (isset($notify[0]['id'])){
+            $id = $notify[0]['id'];
+            DB::table('notifications')->where('id', $id)->delete();
+        }
     }
 
 

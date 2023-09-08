@@ -51,7 +51,7 @@ export const notifyModule = {
         async deleteNotify({state, commit, dispatch},{me,second_user}){
             const data = {me_id: me.id ,second_user_id: second_user.id};
             const response = await axios.post(state.url+'chat/delNotify',data)
-        }
+        },
 
     },
     namespaced: true
