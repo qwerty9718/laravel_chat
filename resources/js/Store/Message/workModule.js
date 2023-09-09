@@ -5,11 +5,13 @@ export const workModule = {
         // url: 'http://95.130.227.47:82/',
         url: 'http://localhost:8000/',
         secondUser: {id:0},
-        // messages: null,
         messages: {array: [], chat_room: null},
         body: '',
         chat_id : null,
         status_chat: null,
+        page: 1,
+        last_page: 1,
+        loader: false
     }),
 
     getters: {
@@ -31,6 +33,15 @@ export const workModule = {
             return state.status_chat
         },
 
+        getPage(state){
+            return state.page
+        },
+        getLastPage(state){
+            return state.last_page
+        },
+        getLoader(state){
+            return state.loader
+        }
 
     },
     mutations: {
@@ -38,9 +49,6 @@ export const workModule = {
             state.secondUser = user
         },
 
-        // setMessages(state, messages) {
-        //     state.messages = messages;
-        // },
         setMessages(state, array) {
             array.reverse();
             state.messages.array = array;
@@ -61,25 +69,28 @@ export const workModule = {
           state.chat_id = id;
         },
 
-        // addMessages(state, message) {
-        //     if (state.messages.length <= 0){
-        //         state.messages.push(message)
-        //     }
-        //     else {
-        //         state.messages = [...state.messages.push(message)]
-        //     }
-        //
-        // },
 
         addMessages(state, array ) {
             if (state.messages.array.length <= 0){
                 state.messages.array.push(array);
             }
             else {
-                state.messages.array = [...state.messages.array.push(array)]
+                state.messages.array = [...state.messages.array.push(array)];
             }
 
         },
+
+        setPage(state, page){
+            state.page = page;
+        },
+
+        setLastPage(state, page){
+            state.last_page = page;
+        },
+        setLoadMessages(state, array){
+            array.reverse();
+            state.messages.array.unshift(...array);
+        }
     },
     actions: {
 
@@ -87,7 +98,16 @@ export const workModule = {
         async getChatRoom({state, commit, dispatch},{me,secondUser}){
             const response = await axios.post(state.url+'chat/getChat',{me:me.id, secondUser:secondUser.id});
             dispatch('notifyModule/changeNotifyStatus', {secondUser:secondUser}, {root:true});
-            commit('setMessages', response.data.messages.data);
+            if(response.data.messages.data){
+                commit('setMessages', response.data.messages.data);
+                commit('setPage', response.data.messages.current_page);
+                commit('setLastPage',response.data.messages.last_page)
+            }
+            else {
+                commit('setMessages', response.data.messages);
+                commit('setPage', 1);
+                commit('setLastPage',1)
+            }
             commit('setSecondUser',response.data.second_user);
             commit('setStatus_chat', response.data.status_chat);
             commit('setChat_id',response.data.current_chat.id);
@@ -118,6 +138,18 @@ export const workModule = {
         addMessageToArrayList({state, commit}, message) {
             commit('addMessages', message);
         },
+
+        // Загрузка доп сообщений
+        async loadMore({state, commit, dispatch},{page,chat_id}){
+            if (page < state.last_page){
+                page++;
+                commit('setPage', page);
+                state.loader = true;
+                const response = await axios.get(state.url+'chat/loadMoreMessages/'+chat_id+'?page='+state.page);
+                commit('setLoadMessages',response.data.data);
+                state.loader = false;
+            }
+        }
 
     },
     namespaced: true
