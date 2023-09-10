@@ -1,5 +1,11 @@
 <template>
     <ChatLayout>
+
+        <!--  Контакты  -->
+        <template v-slot:navbar>
+            <NavBar :users="getUsers"/>
+        </template>
+
         <!--  Контакты  -->
         <template v-slot:contacts>
             <Contacts :users="getUsers" :me="me" :getSecondUser="getSecondUser" />
@@ -32,9 +38,10 @@ import SecondUserInfoBlock from "@/Components/Work/SecondUserInfoBlock.vue";
 import Messages from "@/Components/Work/Messages.vue";
 import SendMessageBlock from "@/Components/Work/SendMessageBlock.vue";
 import ChatLayout from "@/Layouts/Work/ChatLayout.vue";
+import NavBar from "@/Components/Work/NavBar.vue";
 export default {
     name: "Index",
-    components:{ChatLayout, SendMessageBlock, Messages, SecondUserInfoBlock, Contacts, Link},
+    components:{NavBar, ChatLayout, SendMessageBlock, Messages, SecondUserInfoBlock, Contacts, Link},
     props: {
         users: {type: Array},
         me: {type: Object},

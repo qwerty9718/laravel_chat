@@ -1,5 +1,10 @@
 <template>
     <div class="main-content" id="panel">
+
+        <!--  Navbar  -->
+        <slot name="navbar"></slot>
+
+
         <div class="container-fluid pt-3">
             <div class="row removable">
                 <div class="col-lg-12 px-sm-0">
@@ -41,8 +46,12 @@
 </template>
 
 <script>
+import {Link} from "@inertiajs/vue3";
+
+
 export default {
-    name: "ChatLayout"
+    name: "ChatLayout",
+    components:{Link}
 }
 </script>
 

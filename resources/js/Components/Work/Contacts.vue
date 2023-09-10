@@ -49,6 +49,7 @@ export default {
         ...mapActions({
             getChatRoom: 'work/getChatRoom',
             setNotificationPusher: 'notifyModule/setNotificationPusher',
+            addNotifyToArray: 'notifyModule/addNotifyToArray'
         }),
     },
 
@@ -60,6 +61,7 @@ export default {
             .listen('.notify', res => {
                 if (this.getSecondUser.id !== res.from_id){
                     this.setNotificationPusher({res:res});
+                    this.addNotifyToArray({notify:res});
                 }
             });
     }

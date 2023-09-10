@@ -15,9 +15,13 @@
             <div class="col-auto ">
                 <div :class="message.user_id === me.id ? 'card bg-gradient-primary text-white' : 'card'">
                     <div class="card-body p-2">
-                        <p>
+                        <p style="text-align: center">
                             {{ message.body }}
                         </p>
+                        <div class="d-flex align-items-center justify-content-end text-sm opacity-6">
+                            <i class="fa fa-check-double mr-1 text-xs" aria-hidden="true"></i>
+                            <small>4:42pm</small>
+                        </div>
                     </div>
                 </div>
             </div>

@@ -1,11 +1,8 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\TestMessenger\MessageController;
-use App\Http\Controllers\TestMessenger\PrototypeController;
-use App\Http\Controllers\TestMessenger\UserController;
 use App\Http\Controllers\Work\ChatController;
-use App\Http\Controllers\Work\MainController;
+use App\Http\Controllers\Work\UserController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -48,6 +45,7 @@ Route::middleware('auth')->group(function () {
         Route::post('/sendMessage', [ChatController::class, 'sendMessage'])->name('chat.sendMessage');
         Route::post('/delNotify', [ChatController::class, 'deleteNotification'])->name('chat.delNotify');
         Route::get('/loadMoreMessages/{id}', [ChatController::class, 'loadMoreMessages'])->name('chat.loadMoreMessages');
+        Route::patch('/updateUser', [UserController::class, 'updateUser'])->name('chat.updateUser');
     });
 
 });

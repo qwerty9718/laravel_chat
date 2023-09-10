@@ -17,6 +17,7 @@ class NotificationEvent implements ShouldBroadcast
     private int $from_id;
     private int $to_id;
 
+
     /**
      * Create a new event instance.
      */
@@ -59,7 +60,8 @@ class NotificationEvent implements ShouldBroadcast
     {
         return [
             'from_id' => $this->from_id,
-            'to_id' => $this->to_id
+            'user_id' => $this->to_id,
+            'to_id' => $this->to_id,
         ];
     }
 }

@@ -15471,7 +15471,7 @@ textarea[resize="horizontal"] {
 }
 @media (max-width: 575.98px) {
     .navbar-search .form-group {
-        width: 100%;
+        width: 85%;
     }
     .navbar-search .form-control {
         width: auto;
@@ -17859,7 +17859,7 @@ a.text-lighter:hover {
 }
 .bootstrap-tagsinput [data-role="remove"]:after {
     font-size: 16px;
-    content: "×";
+    content: "ï¿½";
 }
 #chartjs-tooltip {
     position: absolute;

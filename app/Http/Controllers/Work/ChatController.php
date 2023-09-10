@@ -91,11 +91,13 @@ class ChatController extends Controller
         foreach ($notifications as $item){
             if ($item['user_id'] == $second_user && $item['from_id'] == $me){
                 $create = false;
+                return null;
                 break;
             }
         }
         if ($create == true){
             $notify = Notification::create(['user_id' => $second_user, 'from_id' => $me]);
+            return $notify;
         }
 
     }
