@@ -6,6 +6,7 @@ export const notifyModule = {
         url: 'http://localhost:8000/',
         users: null,
         notifications: [],
+        notifyUsers: [],
     }),
 
     getters: {
@@ -16,6 +17,10 @@ export const notifyModule = {
         getNotifications(state){
             return state.notifications;
         },
+
+        getNotifyUsers(state){
+            return state.notifyUsers;
+        }
 
     },
     mutations: {
@@ -56,6 +61,7 @@ export const notifyModule = {
             const response = await axios.post(state.url+'chat/delNotify',data)
         },
 
+        // Добавление уведомлений в массив
         addNotifyToArray({state, commit, dispatch},{notify}){
             let bool = true;
             //Если массив Пуст
@@ -73,6 +79,18 @@ export const notifyModule = {
                 }
             }
             if (bool === true){state.notifications.push(notify);}
+        },
+
+
+        showNotifyUsers({state, commit, dispatch},{users}){
+
+            for (let i = 0; i < state.notifications.length; i++) {
+                let fromId = state.notifications[i].from_id;
+                let user = users.find(user => user.id === fromId);
+                if (user) {
+                    state.notifyUsers = user;
+                }
+            }
         }
 
     },

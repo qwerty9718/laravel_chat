@@ -1,5 +1,5 @@
 <template>
-    {{getNotifications}}
+
     <nav class="navbar navbar-top navbar-expand navbar-dark bg-primary border-bottom" id="navbarTop">
         <div class="container-fluid">
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
@@ -37,11 +37,14 @@
                         </a>
 
                         <div class="dropdown-menu dropdown-menu-right dropdown-menu-xl py-0 overflow-hidden">
-                            <div class="px-3 pt-3">
-                                <h6 class="text-sm text-muted m-0" v-if="getNotifications.length > 0">You have <span class="text-primary">{{getNotifications.length}}</span> new notifications!</h6>
+                            <div class="px-3 pt-3" v-if="getNotifications.length > 0">
+                                <h6 class="text-sm text-muted m-0">You have <span class="text-primary">{{getNotifications.length}}</span> new notifications!</h6>
                             </div>
-                            <div class="list-group list-group-flush" v-for="user in users">
-                                <NotifyUser :user="user"/>
+                            <div class="list-group list-group-flush" v-for="user in users" :key="user.id">
+                                <div v-for="notify in getNotifications" :key="notify.id">
+                                    <div v-if="notify.from_id === user.id"> <NotifyUser :user="user"/></div>
+                                </div>
+
                             </div>
                         </div>
                     </li>
@@ -97,9 +100,20 @@ export default {
     computed:{
         ...mapGetters({
             getNotifications: 'notifyModule/getNotifications',
+            getNotifyUsers: 'notifyModule/getNotifyUsers'
         })
     },
 
+    methods:{
+        ...mapActions({
+            showNotifyUsers:'notifyModule/showNotifyUsers'
+        })
+    },
+
+
+    mounted() {
+        this.showNotifyUsers({users:this.users});
+    }
 
 
 }

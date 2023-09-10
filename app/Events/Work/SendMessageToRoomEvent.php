@@ -3,6 +3,7 @@
 namespace App\Events\Work;
 
 
+use App\Http\Resources\Chat\MessageResource;
 use App\Models\Message;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
@@ -56,7 +57,7 @@ class SendMessageToRoomEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'message' => $this->message,
+            'message' => MessageResource::make($this->message)->resolve(),
         ];
     }
 }

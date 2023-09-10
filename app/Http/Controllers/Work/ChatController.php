@@ -10,6 +10,8 @@ use App\Http\Requests\Prototype\SendMessageRequest;
 use App\Http\Requests\Work\CreateChatRequest;
 use App\Http\Requests\Work\DeleteNotifyRequest;
 use App\Http\Requests\Work\GetChatRequest;
+use App\Http\Resources\Chat\MessageResource;
+use App\Http\Resources\Chat\UserResource;
 use App\Models\ChatRoom;
 use App\Models\ChatUserTable;
 use App\Models\Message;
@@ -23,6 +25,7 @@ class ChatController extends Controller
 {
     public function index(){
         $users = User::all();
+        $users = UserResource::collection($users)->resolve();
         $me = auth()->user();
         $notifications = $me->getNotify;
         return inertia('Work/Index', compact('users','me', 'notifications'));
@@ -40,6 +43,7 @@ class ChatController extends Controller
                 if ($fRoom->id  == $sRoom->id){
 //                    $messages = $fRoom->messages($fRoom->id)->orderBy('created_at', 'desc')->paginate(5);
                     $messages = $fRoom->messages($fRoom->id)->orderBy('created_at', 'desc')->paginate(20);
+                    $messages = MessageResource::collection($messages)->resolve();
                     if (count($messages) <= 0 ){
                         return  $data = ['messages' => [],'second_user' => $secondUser,'current_chat' => $fRoom, 'status_chat' => 'no messages'];
                     }
@@ -126,7 +130,8 @@ class ChatController extends Controller
         broadcast(new SendMessageToRoomEvent($message))->toOthers();
         broadcast(new NotificationEvent($message['user_id'],$second_user_id))->toOthers();
 
-        return $message;
+//        return $message;
+        return MessageResource::make($message)->resolve();
     }
 
 

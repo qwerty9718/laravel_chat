@@ -1,11 +1,4 @@
 <template>
-    <!--    <div class="container">-->
-<!--            <h2>Current page {{getPage}}</h2>-->
-<!--            <h2>Last page {{getLastPage}}</h2>-->
-    <!--        <h2>Chat_id {{getChat_id}}</h2>-->
-    <!--        <h2>Second User {{getSecondUser.id}}</h2>-->
-    <!--        <button class="btn btn-primary" @click="loadMore({page:getPage,chat_id:getChat_id})">load more</button>-->
-    <!--    </div>-->
 
     <div class="card-body overflow-auto overflow-x-hidden" id="my-messages">
         <div ref="observer" class="observer"></div>
@@ -20,7 +13,7 @@
                         </p>
                         <div class="d-flex align-items-center justify-content-end text-sm opacity-6">
                             <i class="fa fa-check-double mr-1 text-xs" aria-hidden="true"></i>
-                            <small>4:42pm</small>
+                            <small>{{message.time_create}}</small>
                         </div>
                     </div>
                 </div>
