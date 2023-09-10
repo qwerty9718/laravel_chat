@@ -1,7 +1,7 @@
 <template>
     <!--    <div class="container">-->
-            <h2>Current page {{getPage}}</h2>
-            <h2>Last page {{getLastPage}}</h2>
+<!--            <h2>Current page {{getPage}}</h2>-->
+<!--            <h2>Last page {{getLastPage}}</h2>-->
     <!--        <h2>Chat_id {{getChat_id}}</h2>-->
     <!--        <h2>Second User {{getSecondUser.id}}</h2>-->
     <!--        <button class="btn btn-primary" @click="loadMore({page:getPage,chat_id:getChat_id})">load more</button>-->

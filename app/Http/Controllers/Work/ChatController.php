@@ -39,7 +39,7 @@ class ChatController extends Controller
             foreach ($secondUserRoom as $sRoom){
                 if ($fRoom->id  == $sRoom->id){
 //                    $messages = $fRoom->messages($fRoom->id)->orderBy('created_at', 'desc')->paginate(5);
-                    $messages = $fRoom->messages($fRoom->id)->orderBy('created_at', 'desc')->paginate(15);
+                    $messages = $fRoom->messages($fRoom->id)->orderBy('created_at', 'desc')->paginate(20);
                     if (count($messages) <= 0 ){
                         return  $data = ['messages' => [],'second_user' => $secondUser,'current_chat' => $fRoom, 'status_chat' => 'no messages'];
                     }
@@ -131,7 +131,7 @@ class ChatController extends Controller
     public function loadMoreMessages($id){
         $chat_room = ChatRoom::findOrFail($id);
 //        $messages = $fRoom->messages($fRoom->id)->orderBy('created_at', 'desc')->paginate(5);
-        $messages = $chat_room->messages($chat_room->id)->orderBy('created_at', 'desc')->paginate(15);
+        $messages = $chat_room->messages($chat_room->id)->orderBy('created_at', 'desc')->paginate(20);
         return $messages;
     }
 
