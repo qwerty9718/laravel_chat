@@ -41,9 +41,8 @@ class ChatController extends Controller
         foreach ($firsUserRooms as $fRoom){
             foreach ($secondUserRoom as $sRoom){
                 if ($fRoom->id  == $sRoom->id){
-//                    $messages = $fRoom->messages($fRoom->id)->orderBy('created_at', 'desc')->paginate(5);
                     $messages = $fRoom->messages($fRoom->id)->orderBy('created_at', 'desc')->paginate(20);
-                    $messages = MessageResource::collection($messages)->resolve();
+//                    $messages = MessageResource::collection($messages)->resolve();
                     if (count($messages) <= 0 ){
                         return  $data = ['messages' => [],'second_user' => $secondUser,'current_chat' => $fRoom, 'status_chat' => 'no messages'];
                     }
@@ -130,8 +129,8 @@ class ChatController extends Controller
         broadcast(new SendMessageToRoomEvent($message))->toOthers();
         broadcast(new NotificationEvent($message['user_id'],$second_user_id))->toOthers();
 
-//        return $message;
-        return MessageResource::make($message)->resolve();
+        return $message;
+//        return MessageResource::make($message)->resolve();
     }
 
 

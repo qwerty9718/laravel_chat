@@ -14,6 +14,7 @@ class MessageResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
+        $pagination = $this->resource->toArray();
         return [
             'id' => $this->id,
             'body' => $this->body,
@@ -23,7 +24,9 @@ class MessageResource extends JsonResource
             'chat_room_id' => $this->chat_room_id,
             'status' => $this->status,
             'name' => $this->name,
-
+            'data' => $this->collection
         ];
     }
+
+
 }

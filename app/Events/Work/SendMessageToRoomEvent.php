@@ -57,7 +57,8 @@ class SendMessageToRoomEvent implements ShouldBroadcast
     public function broadcastWith(): array
     {
         return [
-            'message' => MessageResource::make($this->message)->resolve(),
+            'message' => $this->message,
+//            'message' => MessageResource::make($this->message)->resolve(),
         ];
     }
 }

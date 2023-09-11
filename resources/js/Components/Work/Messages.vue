@@ -1,20 +1,23 @@
 <template>
 
+<!--    <div>-->
+<!--        <h2>Page : {{getPage}}</h2>-->
+<!--        <h2>Last page : {{getLastPage}}</h2>-->
+<!--        <h2>Last page : {{getChat_id}}</h2>-->
+<!--    </div>-->
+<!--    {{getLoader}}-->
+
     <div class="card-body overflow-auto overflow-x-hidden" id="my-messages">
         <div ref="observer" class="observer"></div>
         <div
             :class="message.user_id === me.id ? 'row justify-content-end text-right mb-1'  : 'row justify-content-start mb-1'"
             v-if="users" v-for="message in getMessages.array" :key="message.id">
             <div class="col-auto ">
-                <div :class="message.user_id === me.id ? 'card bg-gradient-primary text-white' : 'card'">
+                <div :class="message.user_id === me.id ? 'card bg-gradient-primary text-white' : 'card'" style="height: 40px">
                     <div class="card-body p-2">
                         <p style="text-align: center">
                             {{ message.body }}
                         </p>
-                        <div class="d-flex align-items-center justify-content-end text-sm opacity-6">
-                            <i class="fa fa-check-double mr-1 text-xs" aria-hidden="true"></i>
-                            <small>{{message.time_create}}</small>
-                        </div>
                     </div>
                 </div>
             </div>
@@ -49,7 +52,7 @@ export default {
             getChat_id: 'work/getChat_id',
             getPage: 'work/getPage',
             getLastPage: 'work/getLastPage',
-            getLoader: 'work/getLoader'
+            getLoader: 'work/getLoader',
         }),
     },
 
@@ -81,7 +84,7 @@ export default {
         const callback = (entries, observer) => {
             if (entries[0].isIntersecting && this.getPage < this.getLastPage) {
                 let container = document.querySelector("#my-messages");
-                container.scrollTop += 150;
+                    container.scrollTop += 150;
                 this.loadMore({page: this.getPage, chat_id: this.getChat_id});
             }
         };

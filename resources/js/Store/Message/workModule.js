@@ -11,7 +11,7 @@ export const workModule = {
         status_chat: null,
         page: 1,
         last_page: 1,
-        loader: false
+        loader: false,
     }),
 
     getters: {
@@ -41,7 +41,11 @@ export const workModule = {
         },
         getLoader(state){
             return state.loader
+        },
+        getTest(state){
+            return state.test
         }
+
 
     },
     mutations: {
@@ -90,7 +94,8 @@ export const workModule = {
         setLoadMessages(state, array){
             array.reverse();
             state.messages.array.unshift(...array);
-        }
+        },
+
     },
     actions: {
 
@@ -101,7 +106,8 @@ export const workModule = {
             if(response.data.messages.data){
                 commit('setMessages', response.data.messages.data);
                 commit('setPage', response.data.messages.current_page);
-                commit('setLastPage',response.data.messages.last_page)
+                commit('setLastPage',response.data.messages.last_page);
+
             }
             else {
                 commit('setMessages', response.data.messages);
