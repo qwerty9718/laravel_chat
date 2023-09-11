@@ -1,11 +1,5 @@
 <template>
 
-<!--    <div>-->
-<!--        <h2>Page : {{getPage}}</h2>-->
-<!--        <h2>Last page : {{getLastPage}}</h2>-->
-<!--        <h2>Last page : {{getChat_id}}</h2>-->
-<!--    </div>-->
-<!--    {{getLoader}}-->
 
     <div class="card-body overflow-auto overflow-x-hidden" id="my-messages">
         <div ref="observer" class="observer"></div>
@@ -13,7 +7,7 @@
             :class="message.user_id === me.id ? 'row justify-content-end text-right mb-1'  : 'row justify-content-start mb-1'"
             v-if="users" v-for="message in getMessages.array" :key="message.id">
             <div class="col-auto ">
-                <div :class="message.user_id === me.id ? 'card bg-gradient-primary text-white' : 'card'" style="height: 40px">
+                <div :class="message.user_id === me.id ? 'card bg-gradient-primary text-white' : 'card'" style="min-height: 40px">
                     <div class="card-body p-2">
                         <p style="text-align: center">
                             {{ message.body }}

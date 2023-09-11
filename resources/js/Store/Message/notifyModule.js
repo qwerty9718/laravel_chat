@@ -7,6 +7,8 @@ export const notifyModule = {
         users: null,
         notifications: [],
         notifyUsers: [],
+        findUser: [],
+        query: '',
     }),
 
     getters: {
@@ -20,7 +22,19 @@ export const notifyModule = {
 
         getNotifyUsers(state){
             return state.notifyUsers;
-        }
+        },
+        getQuery(state){
+            return state.query;
+        },
+
+        sortedAndSearchUsers(state){
+            if (state.query !== ''){
+                return state.users.filter(user => user.name.toLowerCase().includes(state.query.toLowerCase()))
+            }
+            if (state.query === ''){
+                return state.users;
+            }
+        },
 
     },
     mutations: {
@@ -39,6 +53,9 @@ export const notifyModule = {
             }
         },
 
+        setQuery(state,query){
+           state.query = query;
+        },
     },
     actions: {
 

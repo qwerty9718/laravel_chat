@@ -96,11 +96,16 @@ export default {
 
 
         async submit() {
-            const data = new FormData();
-            data.append('user_id',this.form.user_id);
-            data.append('avatar',this.form.avatar);
-            const response = await axios.post(this.getUrl+'chat/uploadImg',data);
-            this.me.avatar_url = response.data;
+            if (this.form.avatar !== null){
+                const data = new FormData();
+                data.append('user_id',this.form.user_id);
+                data.append('avatar',this.form.avatar);
+                const response = await axios.post(this.getUrl+'chat/uploadImg',data);
+                this.me.avatar_url = response.data;
+            }
+            else {
+                alert('choose the image');
+            }
         },
 
 

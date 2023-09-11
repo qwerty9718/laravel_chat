@@ -16,8 +16,7 @@ export const userModule = {
 
         getUrl(state){
             return state.url
-        }
-
+        },
     },
     mutations:{
 
@@ -31,6 +30,7 @@ export const userModule = {
             const data = {id: user.id,name: user.name,email: user.email,surname :user.surname,phone: user.phone,country: user.country,city: user.city};
             const response = await axios.patch(state.url+'chat/updateUser', data);
         },
+
 
 
     },

@@ -1,5 +1,5 @@
 <template>
-  {{images}}
+
     <ChatLayout>
 
         <!--  Контакты  -->
@@ -9,7 +9,7 @@
 
         <!--  Контакты  -->
         <template v-slot:contacts>
-            <Contacts :users="getUsers" :me="me" :getSecondUser="getSecondUser" />
+            <Contacts :users="sortedAndSearchUsers" :me="me" :getSecondUser="getSecondUser" />
         </template>
 
         <!--  С кем переписка-->
@@ -56,6 +56,7 @@ export default {
             getUsers: 'notifyModule/getUsers',
             getNotifications: 'notifyModule/getNotifications',
             getMessages: 'work/getMessages',
+            sortedAndSearchUsers:'notifyModule/sortedAndSearchUsers'
         }),
 
     },
@@ -68,7 +69,7 @@ export default {
         ...mapMutations({
             setUsers: 'notifyModule/setUsers',
             setNotifications: 'notifyModule/setNotifications',
-            setMessagesChatId: 'work/setMessagesChatId'
+            setMessagesChatId: 'work/setMessagesChatId',
         })
     },
 

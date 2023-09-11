@@ -5,19 +5,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
                 <!--  Поиск  -->
-                <form class="navbar-search navbar-search-dark form-inline mr-sm-3 mb-0" id="navbar-search-main">
-                    <div class="form-group mb-0">
-                        <div class="input-group input-group input-group-merge">
-                            <input class="form-control ml-2" placeholder="Type here..." type="text">
-                            <div class="input-group-append mr-2">
-                                <span class="input-group-text"><i class="fas fa-search"></i></span>
-                            </div>
-                        </div>
-                    </div>
-                    <button type="button" class="close" data-action="search-close" data-target="#navbar-search-main" aria-label="Close">
-                        <span aria-hidden="true" class="text-white">×</span>
-                    </button>
-                </form>
+                <FindUser/>
 
 
                 <!--  Уведомления -->
@@ -42,7 +30,7 @@
                             </div>
                             <div class="list-group list-group-flush" v-for="user in users" :key="user.id">
                                 <div v-for="notify in getNotifications" :key="notify.id">
-                                    <div v-if="notify.from_id === user.id"> <NotifyUser :user="user"/></div>
+                                    <div v-show="notify.from_id === user.id"> <NotifyUser :user="user"/></div>
                                 </div>
 
                             </div>
@@ -63,6 +51,7 @@
                                         <img alt="Image placeholder" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzH6TfTtq91hzmeIvm_4JOdb5y1UWjTlYZdA&usqp=CAU">
                                 </span>
                             </div>
+                            <div class="text-center" style="margin: auto"> <small style="margin: auto">{{me.name}}</small></div>
                         </a>
                         <div class="dropdown-menu  dropdown-menu-right ">
                             <div class="dropdown-header noti-title">
@@ -89,13 +78,14 @@
 </template>
 
 <script>
-import {mapMutations,mapState,mapGetters,mapActions} from "vuex";
+import {mapGetters,mapActions} from "vuex";
 import NotifyUser from "@/Components/Work/NotifyUser.vue";
 import {Link} from '@inertiajs/vue3';
+import FindUser from "@/Components/Work/FindUser.vue";
 
 export default {
     name: "NavBar",
-    components: {NotifyUser,Link},
+    components: {FindUser, NotifyUser,Link},
     props: {
         users: {type: Array, required: true},
         me:{type:Object}
