@@ -1,13 +1,30 @@
 <template>
     <Head title="Dashboard" />
 
+
     <div class="container rounded bg-white mt-5 mb-5" v-if="me">
         <div class="row">
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRuBJT5wHCiGz1_ahHSkMCToJutWRc7_GtpEklerkC0wtu0zj9j0mRsCuUVCWRx4gtCQkc&usqp=CAU" alt="">
+
+                    <div>
+                        <img class="avatar_image" :src="me.avatar_url" alt="">
+                        <img v-if="!me.avatar_url" class="avatar_image" src="https://static.vecteezy.com/system/resources/thumbnails/010/287/641/small/add-user-icon-isolated-on-a-white-background-add-friendship-symbol-for-web-and-mobile-apps-free-vector.jpg" alt="" @click="test">
+                    </div>
+
                     <span class="font-weight-bold"></span><span class="text-black">{{me.name}}</span><span> </span>
                     <span class="font-weight-bold"></span><span class="text-black-50">{{me.email}}</span><span> </span>
+
+
+                    <div class="container mt-2">
+                        <input class="form-control mb-2" type="number" v-model="form.user_id" hidden/>
+                        <input class="form-control mb-2" type="file" @input="form.avatar = $event.target.files[0]" />
+                        <progress v-if="form.progress" :value="form.progress.percentage" max="100">
+                            {{ form.progress.percentage }}%
+                        </progress>
+                        <button @click.prevent="submit" class="btn btn-primary">set image</button>
+                    </div>
+
                 </div>
             </div>
             <div class="col-md-5 border-right">
@@ -38,7 +55,6 @@
                 <div class="p-3 py-5 text-center">
                     <Link class="btn btn-primary font-semibold text-xl text-white leading-tight" :href="route('chat.index')">Chat</Link>
                     <Link class="btn btn-danger font-semibold text-xl text-white leading-tight" :href="route('logout')" method="post" as="button">Logout</Link>
-
                 </div>
             </div>
         </div>
@@ -50,13 +66,25 @@
 <script>
 import {mapMutations,mapState,mapGetters,mapActions} from "vuex";
 import {Head, useForm} from '@inertiajs/vue3';
-import {Link} from '@inertiajs/vue3'
+import { router } from '@inertiajs/vue3'
+import {Link} from '@inertiajs/vue3';
+import axios from "axios";
+
 export default {
     name: "Dashboard",
     components:{Head,Link},
+    data(){
+      return{
+          form: useForm({
+              user_id: null,
+              avatar: null,
+          }),
+      }
+    },
     computed:{
         ...mapGetters({
-            me: 'userModule/getAuthUser'
+            me: 'userModule/getAuthUser',
+            getUrl: 'userModule/getUrl'
         })
     },
 
@@ -64,16 +92,31 @@ export default {
         ...mapActions({
             setAuthUser: 'userModule/setAuthUser',
             updateUser: 'userModule/updateUser'
-        })
+        }),
+
+
+        async submit() {
+            const data = new FormData();
+            data.append('user_id',this.form.user_id);
+            data.append('avatar',this.form.avatar);
+            const response = await axios.post(this.getUrl+'chat/uploadImg',data);
+            this.me.avatar_url = response.data;
+        },
+
+
     },
 
     mounted() {
         this.setAuthUser({user: this.$page.props.auth.user});
+        this.form.user_id = this.me.id;
     }
 
 }
 </script>
 
 <style scoped>
-
+.avatar_image{
+width: 225px;
+    border-radius: 20px;
+}
 </style>

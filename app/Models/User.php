@@ -12,6 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function images(){
+        return $this->hasMany(UserImage::class, 'user_id', 'id');
+    }
 
     public function messages(){
         return $this->hasMany(Message::class);

@@ -5,10 +5,23 @@
                 <div class="d-flex align-items-center">
                     <div class="ms-3">
 
-                        <div>
-                            <h3 class="mb-0 d-block" >{{getSecondUser.name}}</h3>
-                            <span class="text-sm text-muted" ><span class="font-weight-bold">{{getSecondUser.email}}</span></span>
+                        <div class="container" style="display: flex; justify-content: space-between">
+                            <div>
+                                <img alt="Image"
+                                     v-show="getSecondUser.avatar_url"
+                                     :src="getSecondUser.avatar_url"
+                                     class="avatar shadow">
+                                <img alt="Image"
+                                     v-show="!getSecondUser.avatar_url"
+                                     src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzH6TfTtq91hzmeIvm_4JOdb5y1UWjTlYZdA&usqp=CAU"
+                                     class="avatar shadow">
+                            </div>
+                            <div class="ml-4">
+                                <h3 class="mb-0 d-block" >{{getSecondUser.name}}</h3>
+                                <span class="text-sm text-muted" ><span class="font-weight-bold">{{getSecondUser.email}}</span></span>
+                            </div>
                         </div>
+
 
                     </div>
 

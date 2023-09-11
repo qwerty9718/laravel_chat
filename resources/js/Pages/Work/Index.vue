@@ -1,9 +1,10 @@
 <template>
+  {{images}}
     <ChatLayout>
 
         <!--  Контакты  -->
         <template v-slot:navbar>
-            <NavBar :users="getUsers"/>
+            <NavBar :users="getUsers" :me="me"/>
         </template>
 
         <!--  Контакты  -->
@@ -45,7 +46,7 @@ export default {
     props: {
         users: {type: Array},
         me: {type: Object},
-        notifications:{type:Array}
+        notifications:{type:Array},
     },
 
     computed: {

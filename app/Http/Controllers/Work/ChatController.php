@@ -17,6 +17,7 @@ use App\Models\ChatUserTable;
 use App\Models\Message;
 use App\Models\Notification;
 use App\Models\User;
+use App\Models\UserImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use function Ramsey\Collection\add;

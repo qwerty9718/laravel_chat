@@ -12,7 +12,6 @@
                         <div class="card-body px-0 pb-0">
                             <div class="px-0 pb-4">
                                 <div class="container-fluid">
-                                    <Link :href="route('dashboard')">dashboard</Link>
                                     <div class="row flex-row">
 
                                         <!--  Контакты  -->

@@ -3,7 +3,9 @@
         <div class="row align-items-center">
             <div class="col-auto">
                 <!-- Avatar -->
-                <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard/assets-old/img/theme/team-1.jpg" class="avatar rounded-circle">
+                <img v-if="!user.avatar_url" alt="Image placeholder" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzH6TfTtq91hzmeIvm_4JOdb5y1UWjTlYZdA&usqp=CAU" class="avatar rounded-circle">
+                <img v-if="user.avatar_url" alt="Image placeholder" :src="user.avatar_url" class="avatar rounded-circle">
+
             </div>
             <div class="col ml--2">
                 <div class="d-flex justify-content-between align-items-center">
@@ -11,7 +13,7 @@
                         <h4 class="mb-0 text-sm">{{user.name}}</h4>
                     </div>
                     <div class="text-right text-muted">
-                        <small>2 hrs ago</small>
+                        <small>message</small>
                     </div>
                 </div>
             </div>

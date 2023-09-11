@@ -56,29 +56,30 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <div class="media align-items-center">
-                                    <span class="avatar avatar-sm">
-                                        <img alt="Image placeholder" src="https://demos.creative-tim.com/argon-dashboard/assets-old/img/theme/team-4.jpg">
-                                    </span>
+                                <span class="avatar avatar-sm" v-show="me.avatar_url" >
+                                        <img alt="Image placeholder" :src="me.avatar_url" class="avatar_img">
+                                </span>
+                                <span class="avatar avatar-sm"  v-show="!me.avatar_url">
+                                        <img alt="Image placeholder" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzH6TfTtq91hzmeIvm_4JOdb5y1UWjTlYZdA&usqp=CAU">
+                                </span>
                             </div>
                         </a>
                         <div class="dropdown-menu  dropdown-menu-right ">
                             <div class="dropdown-header noti-title">
                                 <h6 class="text-overflow m-0">Welcome!</h6>
                             </div>
-                            <a href="#!" class="dropdown-item">
+
+                            <Link :href="route('dashboard')" class="dropdown-item">
                                 <i class="fa fa-user"></i>
                                 <span>My profile</span>
-                            </a>
-                            <a href="#!" class="dropdown-item">
-                                <i class="fa fa-tools"></i>
-                                <span>Settings</span>
-                            </a>
+                            </Link>
 
                             <div class="dropdown-divider"></div>
-                            <a href="#!" class="dropdown-item">
+                            <Link :href="route('logout')" method="post" class="dropdown-item">
                                 <i class="fa fa-sign-out-alt"></i>
                                 <span>Logout</span>
-                            </a>
+                            </Link>
+
                         </div>
                     </li>
                 </ul>
@@ -90,12 +91,14 @@
 <script>
 import {mapMutations,mapState,mapGetters,mapActions} from "vuex";
 import NotifyUser from "@/Components/Work/NotifyUser.vue";
+import {Link} from '@inertiajs/vue3';
 
 export default {
     name: "NavBar",
-    components: {NotifyUser},
+    components: {NotifyUser,Link},
     props: {
         users: {type: Array, required: true},
+        me:{type:Object}
     },
     computed:{
         ...mapGetters({
@@ -120,5 +123,13 @@ export default {
 </script>
 
 <style scoped>
-
+.avatar-sm {
+    font-size: 0.875rem;
+    width: 50px;
+    height: 40px;
+}
+.avatar_img{
+    width: 100%;
+    height: 100%;
+}
 </style>

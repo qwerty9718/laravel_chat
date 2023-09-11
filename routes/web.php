@@ -46,6 +46,8 @@ Route::middleware('auth')->group(function () {
         Route::post('/delNotify', [ChatController::class, 'deleteNotification'])->name('chat.delNotify');
         Route::get('/loadMoreMessages/{id}', [ChatController::class, 'loadMoreMessages'])->name('chat.loadMoreMessages');
         Route::patch('/updateUser', [UserController::class, 'updateUser'])->name('chat.updateUser');
+        Route::post('/uploadImg', [UserController::class, 'uploadImg'])->name('chat.uploadImg');
+        Route::get('/getUserImage/{id}', [UserController::class, 'getUserImage'])->name('chat.getUserImage');
     });
 
 });

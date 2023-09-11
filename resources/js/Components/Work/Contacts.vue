@@ -10,6 +10,11 @@
                            @click.prevent="getChatRoom({me:me,secondUser:user})">
                             <div class="d-flex p-2">
                                 <img alt="Image"
+                                     v-show="user.avatar_url"
+                                     :src="user.avatar_url"
+                                     class="avatar shadow">
+                                <img alt="Image"
+                                     v-show="!user.avatar_url"
                                      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzH6TfTtq91hzmeIvm_4JOdb5y1UWjTlYZdA&usqp=CAU"
                                      class="avatar shadow">
                                 <div class="ml-2">
