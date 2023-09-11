@@ -12,6 +12,9 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
+    public function images(){
+        return $this->hasMany(UserImage::class, 'user_id', 'id');
+    }
 
     public function messages(){
         return $this->hasMany(Message::class);
@@ -25,17 +28,21 @@ class User extends Authenticatable
         return $this->belongsToMany(ChatRoom::class,'chat_user_tables','user_id','chat_room_id');
     }
 
+    public function getNotify(){
+        return $this->hasMany(Notification::class);
+    }
 
     /**
      * The attributes that are mass assignable.
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'name',
-        'email',
-        'password',
-    ];
+//    protected $fillable = [
+//        'name',
+//        'email',
+//        'password',
+//    ];
+protected $guarded = [];
 
     /**
      * The attributes that should be hidden for serialization.

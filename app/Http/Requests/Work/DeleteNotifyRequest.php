@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Requests\Prototype;
+namespace App\Http\Requests\Work;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SendMessageRequest extends FormRequest
+class DeleteNotifyRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,11 +22,8 @@ class SendMessageRequest extends FormRequest
     public function rules(): array
     {
         return [
-
-            'body' => 'required|string',
-            'user_id' => 'required|integer',
-            'chat_room_id' => 'required|integer',
-            'second_user_id' => 'required|integer',
+            'me_id' => 'required|integer',
+            'second_user_id' => 'required|integer'
         ];
     }
 }

@@ -20,6 +20,8 @@
         "vue": "^3.2.41"
     },
     "dependencies": {
+        "@vueup/vue-quill": "^1.2.0",
+        "@vueuse/sound": "^2.0.1",
         "vuex": "^4.0.2"
     }
 }
