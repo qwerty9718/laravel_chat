@@ -1,7 +1,6 @@
 <template>
 
     <ChatLayout>
-
         <!--  Контакты  -->
         <template v-slot:navbar>
             <NavBar :users="getUsers" :me="me"/>
@@ -14,7 +13,7 @@
 
         <!--  С кем переписка-->
         <template v-slot:secondUserInfoBlock>
-            <SecondUserInfoBlock :getSecondUser="getSecondUser"/>
+            <SecondUserInfoBlock :getSecondUser="getSecondUser" :getChat_id="getChat_id"/>
         </template>
 
         <!--  Сообщения  -->
@@ -49,6 +48,8 @@ export default {
         notifications:{type:Array},
     },
 
+    data(){return{test:123}},
+
     computed: {
         ...mapGetters({
             getSecondUser: 'work/getSecondUser',
@@ -56,7 +57,8 @@ export default {
             getUsers: 'notifyModule/getUsers',
             getNotifications: 'notifyModule/getNotifications',
             getMessages: 'work/getMessages',
-            sortedAndSearchUsers:'notifyModule/sortedAndSearchUsers'
+            sortedAndSearchUsers:'notifyModule/sortedAndSearchUsers',
+
         }),
 
     },
@@ -64,12 +66,17 @@ export default {
     methods: {
         ...mapActions({
             addMessageToArrayList: 'work/addMessageToArrayList',
+            startInfoNull: 'work/startInfoNull',
+            deleteUser:'notifyModule/deleteUser',
+            deleteChatAsync: 'work/deleteChatAsync',
+            setNewAvatarUrl:'notifyModule/setNewAvatarUrl'
         }),
 
         ...mapMutations({
             setUsers: 'notifyModule/setUsers',
             setNotifications: 'notifyModule/setNotifications',
             setMessagesChatId: 'work/setMessagesChatId',
+            addNewUser: 'notifyModule/addNewUser',
         })
     },
 
@@ -83,6 +90,13 @@ export default {
                             this.addMessageToArrayList(res.message);
                         }
                     });
+
+                window.Echo.channel('delete_chat_' + newVal)
+                    .listen('.delete_chat', res => {
+                        if (this.getMessages.chat_room == newVal){
+                            this.deleteChatAsync({chat_id:res.chat_id})
+                        }
+                    });
             },
             deep: true,
         },
@@ -90,15 +104,33 @@ export default {
 
 
     mounted() {
+
+        window.Echo.channel('new_user_channel')
+            .listen('.new_user_channel', res => {
+                this.addNewUser(res.newUser);
+            });
+
+        window.Echo.channel('delete_user_channel')
+            .listen('.delete_user_channel', res => {
+                this.deleteUser({user_id:res.delete_user.id});
+                this.startInfoNull();
+            });
+
+        window.Echo.channel('new_avatar_user')
+            .listen('.new_avatar_user', res => {
+                this.setNewAvatarUrl({user_id:res.user_id,user_avatar:res.user_avatar});
+            });
+
         this.setNotifications(this.notifications);
         this.setUsers(this.users);
+    },
+    beforeMount() {
+      this.startInfoNull();
     }
 
 }
 </script>
 
 <style scoped>
-.content-message{
-    height: 70vh;
-}
+
 </style>

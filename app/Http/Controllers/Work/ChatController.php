@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Work;
 
 
+use App\Events\Work\DeleteChatEvent;
 use App\Events\Work\NotificationEvent;
 use App\Events\Work\SendMessageToRoomEvent;
 use App\Http\Controllers\Controller;
@@ -142,4 +143,17 @@ class ChatController extends Controller
         return $messages;
     }
 
+
+    public function deleteChat($id){
+        $chat = ChatRoom::find($id);
+        $messages = $chat->messages($chat['id'])->get();
+        if (count($messages) > 0){
+            foreach ($messages as $message){
+                $message->delete();
+            }
+            $mess = 'chat deleted';
+            broadcast(new DeleteChatEvent($mess,$id))->toOthers();
+        }
+
+    }
 }
