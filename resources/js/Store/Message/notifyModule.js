@@ -2,8 +2,8 @@ import axios from "axios";
 
 export const notifyModule = {
     state: () => ({
-        //  url: 'http://95.130.227.47:82/',
-        url: 'http://localhost:8000/',
+          url: 'http://95.130.227.47:82/',
+        //url: 'http://localhost:8000/',
         users: null,
         notifications: [],
         notifyUsers: [],
