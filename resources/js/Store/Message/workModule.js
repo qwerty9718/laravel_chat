@@ -129,7 +129,8 @@ export const workModule = {
             const name = me.name + '_' + second_user.name;
             const data = {name: name, me:me.id, second_user: second_user.id};
             const response = await axios.post(state.url+'chat/createChatRoom',data);
-            commit('setMessages', response.data.messages);
+            // commit('setMessages', response.data.messages);
+            state.messages.array = [];
             commit('setChat_id', response.data.chat_room_id)
             commit('setStatus_chat',response.data.status_chat);
         },
