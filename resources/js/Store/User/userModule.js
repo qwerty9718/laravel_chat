@@ -3,8 +3,8 @@ import {useForm} from "@inertiajs/vue3";
 
 export const userModule = {
     state: () => ({
-        //  url: 'http://95.130.227.47:82/',
-        url: 'http://localhost:8000/',
+        url: 'http://95.130.227.47:82/',
+        //  url: 'http://localhost:8000/',
         me: null,
 
     }),
