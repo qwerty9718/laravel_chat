@@ -1,6 +1,7 @@
 <template>
     <div class="col-lg-4 mb-4">
-        <div class="card h-100 overflow-auto overflow-x-hidden mb-5 mb-lg-0 content-message">
+<!--        <div class="card h-100 overflow-auto overflow-x-hidden mb-5 mb-lg-0 content-message">-->
+        <div class="card max-height-vh-70 h-100 overflow-auto overflow-x-hidden mb-5 mb-lg-0" style="max-height: 70vh;">
             <div class="card-body p-2" v-if="users">
                 <div v-for="user in users" :key="user.id" class="mb-2">
 
@@ -19,12 +20,14 @@
                                      class="avatar shadow">
                                 <div class="ml-2">
                                     <div class="justify-content-between align-items-center">
-                                        <h4 :class="user.id === getSecondUser.id ?'mb-0 mt-1 text-white' : 'mb-0 mt-1'">
-                                            {{ user.name }}<span
+                                        <h4 class="d-inline-block text-truncate" style="max-width: 140px;" :class="user.id === getSecondUser.id ?'mb-0 mt-1 text-white' : 'mb-0 mt-1'">
+                                            {{ user.name }}
+                                        </h4>
+                                        <span
                                             v-if="user.notificate"
                                             class="badge badge-danger ml-5">new</span>
-                                        </h4>
-                                        <p :class="user.id === getSecondUser.id ? 'text-white mb-0 text-xs font-weight-normal' : 'text-black-50 mb-0 text-xs font-weight-normal'">
+                                        <br>
+                                        <p class="d-inline-block text-truncate" style="max-width: 140px;" :class="user.id === getSecondUser.id ? 'text-white mb-0 text-xs font-weight-normal' : 'text-black-50 mb-0 text-xs font-weight-normal'">
                                             {{ user.email }}</p>
                                     </div>
                                 </div>
@@ -74,5 +77,7 @@ export default {
 </script>
 
 <style scoped>
-
+.content-message{
+    height: 70vh;
+}
 </style>

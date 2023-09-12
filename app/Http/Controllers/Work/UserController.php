@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers\Work;
 
+use App\Events\Work\DeleteUserEvent;
+use App\Events\Work\UploadUserImageEvent;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Work\UserImageRequest;
 use App\Http\Requests\Work\UserRequest;
+use App\Models\ChatRoom;
+use App\Models\ChatUserTable;
+use App\Models\Message;
+use App\Models\Notification;
 use App\Models\User;
 use App\Models\UserImage;
 use Carbon\Carbon;
@@ -58,6 +64,8 @@ class UserController extends Controller
             'avatar_url' => $user_image['url']
         ]);
 
+
+        broadcast(new UploadUserImageEvent($user))->toOthers();
         return $user_image['url'];
     }
 
@@ -68,5 +76,69 @@ class UserController extends Controller
         return $image[0];
     }
 
+
+
+    public function deleteAccount($id){
+        $user = User::findOrFail($id);
+
+        $images = $user->images;
+        if (count($images) > 0){
+            foreach ($images as $del_image){
+                Storage::disk('public')->delete($del_image->path);
+                $del_image->delete($del_image);
+            }
+        }
+
+        $chat_user_tables = ChatUserTable::where('user_id',$user['id'])->get();
+        // Удаление Сообщений
+        if (count($chat_user_tables) > 0){
+            foreach ($chat_user_tables as $item){
+                $chat_rooms = ChatRoom::where('id', $item['chat_room_id'])->get();
+                if (count($chat_rooms) > 0){
+                    foreach ($chat_rooms as $room){
+                        $messages = Message::where('chat_room_id',$room['id'])->get();
+                        if (count($messages) > 0){
+                            foreach ($messages as $message){
+                                $message->delete();
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Удаление Сообщений
+        if (count($chat_user_tables) > 0){
+            foreach ($chat_user_tables as $item){
+                $chat_rooms = ChatRoom::where('id', $item['chat_room_id'])->get();
+                if (count($chat_rooms) > 0){
+                    foreach ($chat_rooms as $room){
+
+                        $others_chat_user_tables = ChatUserTable::where('chat_room_id',$room['id'])->get();
+                        if (count($others_chat_user_tables) > 0){
+                            foreach ($others_chat_user_tables as $other){
+                                $other->delete();
+                            }
+                        }
+                    }
+
+                    foreach ($chat_rooms as $room){
+                        $room->delete();
+                    }
+                }
+            }
+        }
+
+        $notify = $user->getNotify;
+        if (count($notify) > 0){
+            foreach ($notify as $noty){
+                $noty->delete();
+            }
+        }
+        broadcast(new DeleteUserEvent($user))->toOthers();
+
+        $user->delete();
+        return '/';
+    }
 
 }

@@ -53,8 +53,12 @@
             </div>
             <div class="col-md-4">
                 <div class="p-3 py-5 text-center">
-                    <Link class="btn btn-primary font-semibold text-xl text-white leading-tight" :href="route('chat.index')">Chat</Link>
-                    <Link class="btn btn-danger font-semibold text-xl text-white leading-tight" :href="route('logout')" method="post" as="button">Logout</Link>
+                    <Link class="btn btn-primary font-semibold text-xl text-white leading-tight mb-2" :href="route('chat.index')">Chat</Link>
+                    <Link class="btn btn-danger font-semibold text-xl text-white leading-tight mb-2" :href="route('logout')" method="post" as="button">Logout</Link>
+
+                    <button class="btn btn-danger font-semibold text-xl text-white leading-tight mt-2" @click="deleteAccount(me.id)">Delete account</button>
+
+
                 </div>
             </div>
         </div>
@@ -108,6 +112,11 @@ export default {
             }
         },
 
+
+        async deleteAccount(id){
+            const response = await axios.delete(this.getUrl+'chat/deleteAccount/'+id);
+            router.get(this.getUrl)
+        },
 
     },
 

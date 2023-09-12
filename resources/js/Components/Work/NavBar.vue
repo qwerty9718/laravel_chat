@@ -51,7 +51,8 @@
                                         <img alt="Image placeholder" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQzH6TfTtq91hzmeIvm_4JOdb5y1UWjTlYZdA&usqp=CAU">
                                 </span>
                             </div>
-                            <div class="text-center" style="margin: auto"> <small style="margin: auto">{{me.name}}</small></div>
+
+                            <div class="text-center" style="margin: auto;"> <small class="d-inline-block text-truncate" style="margin: auto;max-width: 70px">{{me.name}}</small></div>
                         </a>
                         <div class="dropdown-menu  dropdown-menu-right ">
                             <div class="dropdown-header noti-title">

@@ -2,8 +2,8 @@ import axios from "axios";
 
 export const workModule = {
     state: () => ({
-         url: 'http://95.130.227.47:82/',
-       // url: 'http://localhost:8000/',
+        // url: 'http://95.130.227.47:82/',
+        url: 'http://localhost:8000/',
         secondUser: {id:0},
         messages: {array: [], chat_room: null},
         body: '',
@@ -113,10 +113,12 @@ export const workModule = {
                 commit('setMessages', response.data.messages);
                 commit('setPage', 1);
                 commit('setLastPage',1)
+                commit('setChat_id',response.data.current_chat);
             }
             commit('setSecondUser',response.data.second_user);
             commit('setStatus_chat', response.data.status_chat);
             commit('setChat_id',response.data.current_chat.id);
+
             await dispatch('notifyModule/deleteNotify', {me:me,second_user:secondUser}, {root:true});
 
         },
@@ -155,7 +157,22 @@ export const workModule = {
                 commit('setLoadMessages',response.data.data);
                 state.loader = false;
             }
-        }
+        },
+
+        startInfoNull({state, commit, dispatch}){
+            state.secondUser = {id:0};
+            state.messages = {array: [], chat_room: null};
+            state.body = '';
+            state.chat_id = null;
+            state.status_chat = null;
+            state.page = 1;
+            state.last_page = 1;
+            state.loader = false;
+        },
+
+        deleteChatAsync({state, commit, dispatch},{chat_id}){
+            state.messages.array = [];
+        },
 
     },
     namespaced: true

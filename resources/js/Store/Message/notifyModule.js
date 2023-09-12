@@ -2,8 +2,8 @@ import axios from "axios";
 
 export const notifyModule = {
     state: () => ({
-        url: 'http://95.130.227.47:82/',
-        //url: 'http://localhost:8000/',
+        //  url: 'http://95.130.227.47:82/',
+        url: 'http://localhost:8000/',
         users: null,
         notifications: [],
         notifyUsers: [],
@@ -51,6 +51,10 @@ export const notifyModule = {
                     }
                 }
             }
+        },
+
+        addNewUser(state, user){
+            state.users.push(user);
         },
 
         setQuery(state,query){
@@ -108,6 +112,18 @@ export const notifyModule = {
                     state.notifyUsers = user;
                 }
             }
+        },
+
+        deleteUser({state, commit, dispatch},{user_id}){
+            state.users = state.users.filter(user => user.id !== user_id);
+        },
+
+        setNewAvatarUrl({state, commit, dispatch},{user_id,user_avatar}){
+            state.users.forEach(user => {
+                if (user.id === user_id) {
+                    user.avatar_url = user_avatar;
+                }
+            });
         }
 
     },

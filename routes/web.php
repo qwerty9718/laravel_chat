@@ -48,6 +48,8 @@ Route::middleware('auth')->group(function () {
         Route::patch('/updateUser', [UserController::class, 'updateUser'])->name('chat.updateUser');
         Route::post('/uploadImg', [UserController::class, 'uploadImg'])->name('chat.uploadImg');
         Route::get('/getUserImage/{id}', [UserController::class, 'getUserImage'])->name('chat.getUserImage');
+        Route::delete('/deleteAccount/{id}', [UserController::class, 'deleteAccount'])->name('chat.deleteAccount');
+        Route::delete('/deleteChat/{id}', [ChatController::class, 'deleteChat'])->name('chat.deleteChat');
     });
 
 });

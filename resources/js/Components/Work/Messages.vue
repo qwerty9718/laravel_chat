@@ -19,7 +19,7 @@
 
         <div v-if="getStatus_chat === 'no chats'">
             {{ getStatus_chat }}
-            <button class="btn btn-danger" @click="createNewChat({me:me,second_user:getSecondUser})">create
+            <button class="btn btn-primary" @click="createNewChat({me:me,second_user:getSecondUser})">create
                 chat
             </button>
         </div>
